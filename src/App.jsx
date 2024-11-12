@@ -6,9 +6,13 @@ import Container from "./pages/Container";
 import Register from "./pages/Register";
 import { axiosInstance } from "./utils/axiosInstance";
 import Login from "./pages/Login";
+
 import { useDispatch } from "react-redux";
 import { addUser } from "./store/UserSlice";
 import { useToast } from "@/hooks/use-toast";
+import Profile from "./pages/Profile";
+import Network from "./pages/Network";
+import Jobs from "./pages/Jobs";
 function App() {
   const dispatch = useDispatch();
   const { toast } = useToast();
@@ -36,6 +40,12 @@ function App() {
         }
       }
     },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        description: error?.response?.data?.message,
+      });
+    },
   });
 
   if (isLoading) {
@@ -59,6 +69,18 @@ function App() {
             <Route
               path="/login"
               element={authUser ? <Navigate to={"/"} /> : <Login />}
+            />
+
+            <Route path="/network" element={<Network />} />
+
+            <Route
+              path="/profile/:userId"
+              element={authUser ? <Profile /> : <Navigate to={"/login"} />}
+            />
+
+            <Route
+              path="*"
+              element={authUser ? <Jobs /> : <Navigate to={"/login"} />}
             />
           </Route>
         </Routes>
