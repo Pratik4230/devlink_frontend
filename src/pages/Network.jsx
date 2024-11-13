@@ -127,7 +127,11 @@ const Network = () => {
           ) : (
             <div className="space-y-4">
               {ConnectionsSent?.data?.map((connection) => (
-                <ConnectionCard key={connection?._id} connection={connection} />
+                <ConnectionCard
+                  key={connection?._id}
+                  connection={connection}
+                  type={"sent"}
+                />
               ))}
             </div>
           )}
@@ -157,7 +161,11 @@ const Network = () => {
           ) : (
             <div className="space-y-4">
               {Requests?.data?.map((connection) => (
-                <ConnectionCard key={connection?._id} connection={connection} />
+                <ConnectionCard
+                  key={connection?._id}
+                  connection={connection}
+                  type={"received"}
+                />
               ))}
             </div>
           )}
