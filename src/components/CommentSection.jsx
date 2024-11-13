@@ -5,23 +5,23 @@ import { useToast } from "@/hooks/use-toast";
 import Comment from "./Comment";
 
 const CommentSection = ({ postId }) => {
-  console.log("op", postId);
-
   const { toast } = useToast();
+
+  // console.log("postid commentSection ", postId);
 
   const {
     data: comments,
     isLoading: commentsLoading,
     isError: commentsError,
   } = useQuery({
-    queryKey: ["comments"],
+    queryKey: ["comments", postId],
     queryFn: async () => {
       const response = await axiosInstance.get(`/comment/post/${postId}`);
       return response?.data;
     },
     onSuccess: (data) => {
       toast({
-        description: data?.messsage,
+        description: data?.messsage || "Comments fetched successfully",
       });
     },
     onError: (error) => {
@@ -40,19 +40,19 @@ const CommentSection = ({ postId }) => {
     return <p>error comment</p>;
   }
 
-  console.log("comments", comments);
-
   return (
-    <div>
-      <p>
-        {comments?.data?.length == 0 ? (
-          <p>hii</p>
-        ) : (
-          comments?.data?.map((comment) => (
-            <Comment key={comment?._id} comment={comment} />
-          ))
-        )}
-      </p>
+    <div className="mt-4">
+      {!comments?.data || comments?.data?.length === 0 ? (
+        <div className="text-center text-gray-500 dark:text-gray-400">
+          <p>No comments yet</p>
+        </div>
+      ) : (
+        <div>
+          {comments?.data?.map((comment) => (
+            <Comment key={comment._id} comment={comment} postId={postId} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
