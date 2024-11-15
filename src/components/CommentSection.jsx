@@ -20,9 +20,9 @@ const CommentSection = ({ postId }) => {
       return response?.data;
     },
     onSuccess: (data) => {
-      toast({
-        description: data?.messsage || "Comments fetched successfully",
-      });
+      // toast({
+      //   description: data?.messsage || "Comments fetched successfully",
+      // });
     },
     onError: (error) => {
       toast({

@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { formatDistanceToNow } from "date-fns";
+import { useSelector } from "react-redux";
 
 const Comment = ({ comment, postId }) => {
   const { content, _id, createdAt, isLiked, likeCount } = comment;
@@ -17,6 +18,10 @@ const Comment = ({ comment, postId }) => {
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  const user = useSelector((state) => state.user.user);
+
+  const isOwner = user?._id === comment?.users?._id;
 
   const updateCommentMutation = useMutation({
     mutationFn: async (newContent) => {
@@ -96,18 +101,21 @@ const Comment = ({ comment, postId }) => {
           </div>
         </section>
 
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            <Edit className="w-5 h-5 text-gray-800 dark:text-gray-200" />
-          </button>
-          <Trash
-            onClick={() => deleteCommentMutation.mutate()}
-            className="w-5 h-5 text-gray-800 cursor-pointer dark:text-gray-200"
-          />
-        </div>
+        {isOwner && (
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              {" "}
+              <Edit className="w-5 h-5 text-gray-800 dark:text-gray-200" />
+            </button>
+            <Trash
+              onClick={() => deleteCommentMutation.mutate()}
+              className="w-5 h-5 text-gray-800 cursor-pointer dark:text-gray-200"
+            />
+          </div>
+        )}
       </div>
 
       <section className="mb-6">
