@@ -18,9 +18,9 @@ const Jobs = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      toast({
-        description: data.message || "jobs fetched successfully",
-      });
+      // toast({
+      //   description: data.message || "jobs fetched successfully",
+      // });
     },
     onError: (error) => {
       console.log("error", error);

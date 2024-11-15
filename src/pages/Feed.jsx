@@ -22,7 +22,7 @@ const feed = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      toast({ description: data.message || "feed fetched successfully" });
+      // toast({ description: data.message || "feed fetched successfully" });
     },
     onError: (error) => {
       console.log("error", error);
