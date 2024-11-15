@@ -1,139 +1,218 @@
-import React from "react";
-import { useQuery } from "react-query";
+import React, { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { axiosInstance } from "../utils/axiosInstance";
 import { useToast } from "@/hooks/use-toast";
 import { useParams } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import PostCatd from "../components/PostCatd";
-import { Edit, EllipsisVertical } from "lucide-react";
+
+import { Edit } from "lucide-react";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
   const { toast } = useToast();
-
   const { userId } = useParams();
-  // console.log(userId);
-
   const user = useSelector((state) => state.user.user);
-
   const isOwner = user?._id === userId;
+  const queryClient = useQueryClient();
+
+  const [editMode, setEditMode] = useState(false);
+  const [headline, setHeadline] = useState("");
+  const [location, setLocation] = useState("");
+  const [skills, setSkills] = useState("");
+  const [education, setEducation] = useState({
+    degree: "",
+    institution: "",
+    startDate: "",
+    endDate: "",
+  });
+  const [experience, setExperience] = useState({
+    position: "",
+    company: "",
+    startDate: "",
+    endDate: "",
+  });
 
   const {
     data: profile,
     isLoading: profileLoading,
     isError: profileError,
   } = useQuery({
-    queryKey: ["profile"],
+    queryKey: ["profile", userId],
     queryFn: async () => {
       const response = await axiosInstance.get(`/user/profile/${userId}`);
       return response.data;
     },
     onSuccess: (data) => {
-      // toast({ description: data.message || "profile fetched successfully" });
+      setHeadline(data.data.headline || "");
+      setLocation(data.data.location || "");
+      setSkills(data.data.skills?.join(", ") || "");
+      setEducation(data.data.education || {});
+      setExperience(data.data.experience || {});
     },
     onError: (error) => {
       console.log("error", error);
     },
   });
 
-  const {
-    data: posts,
-    isLoading: postsLoading,
-    isError: postsError,
-  } = useQuery({
-    queryKey: ["posts", userId],
-    queryFn: async () => {
-      const response = await axiosInstance.get(`/post/user/${userId}`);
-      return response.data;
+  const updateProfile = useMutation(
+    async (updates) => {
+      return axiosInstance.put(`/user/profile/update`, updates);
     },
-    onSuccess: (data) => {
-      // toast({ description: data.message || "posts fetched successfully" });
-    },
-    onError: (error) => {
-      console.log("error", error);
-    },
-  });
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["profile", userId]);
+        toast({ description: "Profile updated successfully!" });
+        setEditMode(false);
+      },
+      onError: (error) => {
+        console.log("update error", error);
+        toast({ description: "Failed to update profile." });
+      },
+    }
+  );
 
-  if (profileLoading) {
-    return <p>loading</p>;
-  }
+  const handleSave = () => {
+    const updates = {
+      headline,
+      location,
+      skills: skills.split(",").map((skill) => skill.trim()),
+      education,
+      experience,
+    };
+    updateProfile.mutate(updates);
+  };
 
-  if (profileError) {
-    return <p>error</p>;
-  }
+  if (profileLoading) return <p>Loading...</p>;
+  if (profileError) return <p>Error loading profile.</p>;
 
-  if (postsLoading) {
-    return <p>loading</p>;
-  }
-
-  // console.log("profile", profile.data);
-
-  const {
-    createdAt,
-    education,
-    experience,
-    _id,
-    email,
-    fullname,
-    headline,
-    location,
-    skills,
-    avatar,
-  } = profile?.data;
+  const { fullname, avatar } = profile?.data;
 
   return (
     <div className="mt-10 max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <section className="flex items-center justify-center space-x-4 mb-6">
-        <Avatar className="w-14 h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
+        <Avatar className="w-14 h-14 rounded-full border-2 border-gray-300 shadow-md">
           <AvatarImage src={avatar} />
           <AvatarFallback>{fullname[0]}</AvatarFallback>
         </Avatar>
         <div className="">
           <p className="text-2xl font-semibold">{fullname}</p>
-          <p className="text-gray-500 flex  ">{headline}</p>
-          <p className="text-gray-400 flex ">{location}</p>
-          <p className="text-blue-600 mt-2 font-medium">Connections</p>
-        </div>
-      </section>
-
-      <section className="mb-6 flex flex-col items-center">
-        <h3 className="text-lg flex font-semibold text-gray-700 mb-2">
-          Skills
-        </h3>
-        <p className="text-gray-600 font-semibold text-lg ">
-          {skills
-            ?.map((skill) => skill)
-            .join(", ")
-            .toUpperCase()}
-        </p>
-      </section>
-
-      <section className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-700  flex mb-2">
-          Experience
-        </h3>
-        <div className="border-t pt-4">
-          <h4 className="text-lg font-semibold flex text-gray-700 mb-1">
-            Education
-          </h4>
-          <p className="text-gray-500">{education?.degree}</p>
-          <p className="text-gray-500">{education?.institution}</p>
-          <p className="text-gray-400">
-            {education?.startDate} - {education?.endDate}
-          </p>
-        </div>
-      </section>
-      <section>
-        <h3 className="text-lg font-semibold text-gray-700 mb-2">Activity</h3>
-        <p className="text-blue-600 font-medium">Posts</p>
-        <div>
-          {!posts || posts?.data?.length == 0 ? (
-            <p className="text-gray-500">No posts found</p>
+          {editMode ? (
+            <input
+              type="text"
+              value={headline}
+              onChange={(e) => setHeadline(e.target.value)}
+              className="text-gray-500"
+            />
           ) : (
-            posts?.data?.map((post) => <PostCatd key={post._id} post={post} />)
+            <p className="text-gray-500">{headline}</p>
+          )}
+          {editMode ? (
+            <input
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="text-gray-400"
+            />
+          ) : (
+            <p className="text-gray-400">{location}</p>
+          )}
+          <p className="text-blue-600 mt-2 font-medium">Connections</p>
+          {isOwner && !editMode && (
+            <button
+              onClick={() => setEditMode(true)}
+              className="flex items-center mt-2"
+            >
+              <Edit className="mr-1" /> Edit Profile
+            </button>
           )}
         </div>
       </section>
+
+      <section className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-700">Skills</h3>
+        {editMode ? (
+          <input
+            type="text"
+            value={skills}
+            onChange={(e) => setSkills(e.target.value)}
+            placeholder="Comma-separated skills"
+            className="text-gray-600 mt-2"
+          />
+        ) : (
+          <p className="text-gray-600">{skills}</p>
+        )}
+      </section>
+
+      <section className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-700">Education</h3>
+        {editMode ? (
+          <>
+            <input
+              type="text"
+              placeholder="Degree"
+              value={education.degree}
+              onChange={(e) =>
+                setEducation({ ...education, degree: e.target.value })
+              }
+              className="text-gray-500 mt-1"
+            />
+            <input
+              type="text"
+              placeholder="Institution"
+              value={education.institution}
+              onChange={(e) =>
+                setEducation({ ...education, institution: e.target.value })
+              }
+              className="text-gray-500 mt-1"
+            />
+          </>
+        ) : (
+          <>
+            <p className="text-gray-500">{education?.degree}</p>
+            <p className="text-gray-500">{education?.institution}</p>
+          </>
+        )}
+      </section>
+
+      <section className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-700">Experience</h3>
+        {editMode ? (
+          <>
+            <input
+              type="text"
+              placeholder="Position"
+              value={experience.position}
+              onChange={(e) =>
+                setExperience({ ...experience, position: e.target.value })
+              }
+              className="text-gray-500 mt-1"
+            />
+            <input
+              type="text"
+              placeholder="Company"
+              value={experience.company}
+              onChange={(e) =>
+                setExperience({ ...experience, company: e.target.value })
+              }
+              className="text-gray-500 mt-1"
+            />
+          </>
+        ) : (
+          <>
+            <p className="text-gray-500">{experience?.position}</p>
+            <p className="text-gray-500">{experience?.company}</p>
+          </>
+        )}
+      </section>
+
+      {editMode && (
+        <button
+          onClick={handleSave}
+          className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          Save Changes
+        </button>
+      )}
     </div>
   );
 };
