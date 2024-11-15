@@ -4,7 +4,7 @@ import { axiosInstance } from "../utils/axiosInstance";
 import { useToast } from "@/hooks/use-toast";
 import { useParams } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import PostCatd from "../components/PostCatd";
+
 import { Edit } from "lucide-react";
 import { useSelector } from "react-redux";
 
