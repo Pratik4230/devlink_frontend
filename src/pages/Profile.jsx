@@ -114,7 +114,7 @@ const Profile = () => {
         </h3>
         <div className="border-t pt-4">
           <h4 className="text-lg font-semibold flex text-gray-700 mb-1">
-            Educationnnn
+            Education
           </h4>
           <p className="text-gray-500">{education?.degree}</p>
           <p className="text-gray-500">{education?.institution}</p>
