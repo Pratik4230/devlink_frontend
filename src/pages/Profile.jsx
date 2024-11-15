@@ -10,7 +10,7 @@ const Profile = () => {
 
   const { userId } = useParams();
   // console.log(userId);
-
+  //log hii
   const {
     data: profile,
     isLoading: profileLoading,
@@ -67,12 +67,11 @@ const Profile = () => {
           <p className="text-blue-600 mt-2 font-medium">Connections</p>
         </div>
       </section>
-
+      hiii
       <section className="mb-6">
         <h3 className="text-lg font-semibold text-gray-700 mb-2">Skills</h3>
         <p className="text-gray-600">{skills}</p>
       </section>
-
       <section className="mb-6">
         <h3 className="text-lg font-semibold text-gray-700 mb-2">Experience</h3>
         <div className="border-t pt-4">
@@ -86,7 +85,6 @@ const Profile = () => {
           </p>
         </div>
       </section>
-
       <section>
         <h3 className="text-lg font-semibold text-gray-700 mb-2">Activity</h3>
         <p className="text-blue-600 font-medium">Posts</p>
