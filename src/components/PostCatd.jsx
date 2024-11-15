@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "react-query";
 import { axiosInstance } from "../utils/axiosInstance";
 import { useToast } from "@/hooks/use-toast";
+import { useSelector } from "react-redux";
 
 const PostCard = ({ post }) => {
   const [showComments, setShowComments] = useState(false);
@@ -19,6 +20,10 @@ const PostCard = ({ post }) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { author, content, createdAt, likeCount, _id, isLiked } = post;
+
+  const user = useSelector((state) => state.user.user);
+
+  const isOwner = user?._id === author?._id;
 
   const PostEditMutation = useMutation({
     mutationFn: async (newPost) => {
@@ -132,19 +137,21 @@ const PostCard = ({ post }) => {
             </div>
           </Link>
         </section>
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => setIsEditing(true)}
-            className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            <Edit className="w-5 h-5 text-gray-800 dark:text-gray-200" />
-          </button>
+        {isOwner && (
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setIsEditing(true)}
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <Edit className="w-5 h-5 text-gray-800 dark:text-gray-200" />
+            </button>
 
-          <Trash
-            onClick={() => PostDeleteMutation.mutate()}
-            className="w-5 h-5 text-gray-800 dark:text-gray-200"
-          />
-        </div>
+            <Trash
+              onClick={() => PostDeleteMutation.mutate()}
+              className="w-5 h-5 text-gray-800 dark:text-gray-200"
+            />
+          </div>
+        )}
       </div>
 
       <section className="mb-6">
