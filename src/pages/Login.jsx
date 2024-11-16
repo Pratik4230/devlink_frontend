@@ -18,6 +18,7 @@ import { axiosInstance } from "../utils/axiosInstance";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { LoaderPinwheel } from "lucide-react";
+import { useState } from "react";
 
 const LoginSchema = z.object({
   email: z.string().email("Please enter a valid email").toLowerCase().trim(),
@@ -37,6 +38,8 @@ const Login = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  const [url, setUrl] = useState("/user/login");
+
   const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(LoginSchema),
@@ -48,18 +51,25 @@ const Login = () => {
 
   const mutation = useMutation({
     mutationFn: async (formData) => {
-      const response = await axiosInstance.post("/user/login", formData);
+      const response = await axiosInstance.post(url, formData);
       return response.data;
     },
     onSuccess: (data) => {
       console.log("sucess", data);
       toast({ description: data.message || "Login Successful" });
       queryClient.invalidateQueries(["authUser"]);
+      queryClient.invalidateQueries(["authCompany"]);
 
       navigate("/");
     },
 
     onError: (error) => {
+      if (error?.response?.status === 404) {
+        setUrl("/company/login");
+
+        mutation.mutate(form.getValues());
+        // console.log("vals", form.getValues());
+      }
       console.log("error", error);
       toast({
         variant: "destructive",

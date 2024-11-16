@@ -180,6 +180,8 @@ const Register = () => {
                 Log in
               </Link>
             </p>
+
+            <Link to={"/registercompany"}>Register as Company</Link>
           </form>
         </Form>
       </div>
