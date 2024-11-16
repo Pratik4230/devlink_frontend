@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Home, Users, Briefcase, MessageSquare, Bell } from "lucide-react";
+import {
+  Home,
+  Users,
+  Briefcase,
+  MessageSquare,
+  Bell,
+  BriefcaseBusiness,
+  FileUser,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Popover,
@@ -12,12 +20,19 @@ import { useMutation, useQueryClient } from "react-query";
 import { axiosInstance } from "../utils/axiosInstance";
 import { removeUser } from "../store/UserSlice";
 import { useToast } from "@/hooks/use-toast";
+import { removeCompany } from "../store/CompanySlice";
+
 const Navbar = () => {
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state?.user?.user);
+  const company = useSelector((state) => state?.company?.company);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  // console.log("indi", user);
+  // console.log("cop", company);
+
   const userId = user?._id;
+  const companyId = company?._id;
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,14 +55,18 @@ const Navbar = () => {
 
   const Logout = useMutation({
     mutationFn: async () => {
-      const response = await axiosInstance.post("/user/logout");
+      const response = await axiosInstance.post(
+        user ? "/user/logout" : "/company/logout"
+      );
       return response.data;
     },
     onSuccess: (data) => {
       console.log(data);
       toast({ title: data.message || "Logout successful" });
       dispatch(removeUser());
+      dispatch(removeCompany());
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      queryClient.invalidateQueries({ queryKey: ["authCompany"] });
       navigate("/", { replace: true });
     },
     onError: (error) => {
@@ -70,48 +89,76 @@ const Navbar = () => {
           DevLink
         </Link>
 
-        {/* Centered Navigation Links */}
         <div className="hidden lg:flex space-x-6">
           <Link to="/" className="text-gray-700 hover:text-blue-600">
             <Home className="inline-block w-5 h-5 mr-1" />
             Home
           </Link>
-          <Link to="/network" className="text-gray-700 hover:text-blue-600">
-            <Users className="inline-block w-5 h-5 mr-1" />
-            My Network
-          </Link>
-          <Link to="/jobs" className="text-gray-700 hover:text-blue-600">
-            <Briefcase className="inline-block w-5 h-5 mr-1" />
-            Jobs
-          </Link>
-          <Link to="/messaging" className="text-gray-700 hover:text-blue-600">
-            <MessageSquare className="inline-block w-5 h-5 mr-1" />
-            Messaging
-          </Link>
-          <Link
-            to="/notifications"
-            className="text-gray-700 hover:text-blue-600"
-          >
-            <Bell className="inline-block w-5 h-5 mr-1" />
-            Notifications
-          </Link>
+
+          {user && (
+            <>
+              <Link to="/network" className="text-gray-700 hover:text-blue-600">
+                <Users className="inline-block w-5 h-5 mr-1" />
+                My Network
+              </Link>
+              <Link to="/jobs" className="text-gray-700 hover:text-blue-600">
+                <Briefcase className="inline-block w-5 h-5 mr-1" />
+                Jobs
+              </Link>
+              <Link
+                to="/messaging"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                <MessageSquare className="inline-block w-5 h-5 mr-1" />
+                Messaging
+              </Link>
+              <Link
+                to="/notifications"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                <Bell className="inline-block w-5 h-5 mr-1" />
+                Notifications
+              </Link>{" "}
+            </>
+          )}
+
+          {company && (
+            <>
+              <Link
+                to="/companyjobs"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                <BriefcaseBusiness className="inline-block w-5 h-5 mr-1" />
+                Jobs
+              </Link>
+              <Link
+                to="/applications"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                <FileUser className="inline-block w-5 h-5 mr-1" />
+                Job applications
+              </Link>
+            </>
+          )}
         </div>
 
-        {/* Profile Avatar with Popover */}
         <Popover>
           <PopoverTrigger>
             <Avatar>
-              <AvatarImage src={user?.avatar} />
-              <AvatarFallback>{user?.fullname[0]}</AvatarFallback>
+              <AvatarImage src={user ? user?.avatar : company?.logo} />
+              <AvatarFallback>
+                {user ? user?.fullname[0] : company?.companyName[0]}
+              </AvatarFallback>
             </Avatar>
           </PopoverTrigger>
           <PopoverContent>
             <Link
-              to={`/profile/${userId}`}
+              to={user ? `/profile/${userId}` : `/company/${companyId}`}
               className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100"
             >
-              Profile
+              {user ? "Profile" : "Company Profile"}
             </Link>
+
             <p
               className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100"
               onClick={() => handleLogout()}
