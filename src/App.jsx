@@ -15,6 +15,11 @@ import Network from "./pages/Network";
 import Jobs from "./pages/Jobs";
 import Conversation from "./pages/Conversation";
 import Messaging from "./pages/Messaging";
+import CompanyRegister from "./pages/CompanyRegister";
+import { addCompany } from "./store/CompanySlice";
+import CompanyProfile from "./pages/CompanyProfile";
+import CompanyJobs from "./pages/CompanyJobs";
+import JobApplications from "./pages/JobApplications";
 function App() {
   const dispatch = useDispatch();
   const { toast } = useToast();
@@ -29,14 +34,12 @@ function App() {
         return response.data;
       } catch (error) {
         console.log("auth user error", error);
-        toast({
-          variant: "destructive",
-          title: error?.message,
-        });
-        toast({
-          variant: "destructive",
-          description: error?.response?.data?.message,
-        });
+
+        // toast({
+        //   variant: "destructive",
+        //   title: error?.message,
+        //   description: error?.response?.data?.message,
+        // });
         if (error.response && error.response.status === 401) {
           return null;
         }
@@ -50,7 +53,36 @@ function App() {
     },
   });
 
-  if (isLoading) {
+  const { data: authCompany, isLoading: companyLoading } = useQuery({
+    queryKey: ["authCompany"],
+
+    queryFn: async () => {
+      try {
+        const response = await axiosInstance.get("/company/auth");
+        dispatch(addCompany(response?.data?.data));
+        return response.data;
+      } catch (error) {
+        console.log("auth company error", error);
+
+        // toast({
+        //   variant: "destructive",
+        //   title: error?.message,
+        //   description: error?.response?.data?.message,
+        // });
+        if (error.response && error.response.status === 401) {
+          return null;
+        }
+      }
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        description: error?.response?.data?.message,
+      });
+    },
+  });
+
+  if (isLoading || companyLoading) {
     return <p>loading</p>;
   }
 
@@ -61,16 +93,27 @@ function App() {
           <Route path="/" element={<Container />}>
             <Route
               path="/"
-              element={authUser ? <Feed /> : <Navigate to={"/login"} />}
+              element={
+                authUser || authCompany ? <Feed /> : <Navigate to={"/login"} />
+              }
             />
 
             <Route
               path="/register"
               element={authUser ? <Navigate to={"/"} /> : <Register />}
             />
+
+            <Route
+              path="/registercompany"
+              element={
+                authCompany ? <Navigate to={"/"} /> : <CompanyRegister />
+              }
+            />
             <Route
               path="/login"
-              element={authUser ? <Navigate to={"/"} /> : <Login />}
+              element={
+                authUser || authCompany ? <Navigate to={"/"} /> : <Login />
+              }
             />
 
             <Route path="/network" element={<Network />} />
@@ -93,6 +136,29 @@ function App() {
             <Route
               path="/messaging"
               element={authUser ? <Messaging /> : <Navigate to={"/login"} />}
+            />
+
+            {/* company related routes  */}
+
+            <Route
+              path="/company/:companyId"
+              element={
+                authCompany ? <CompanyProfile /> : <Navigate to={"/login"} />
+              }
+            />
+
+            <Route
+              path="/companyjobs"
+              element={
+                authCompany ? <CompanyJobs /> : <Navigate to={"/login"} />
+              }
+            />
+
+            <Route
+              path="/applications"
+              element={
+                authCompany ? <JobApplications /> : <Navigate to={"/login"} />
+              }
             />
           </Route>
         </Routes>
