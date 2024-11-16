@@ -13,6 +13,8 @@ import { useToast } from "@/hooks/use-toast";
 import Profile from "./pages/Profile";
 import Network from "./pages/Network";
 import Jobs from "./pages/Jobs";
+import Conversation from "./pages/Conversation";
+import Messaging from "./pages/Messaging";
 function App() {
   const dispatch = useDispatch();
   const { toast } = useToast();
@@ -79,8 +81,18 @@ function App() {
             />
 
             <Route
-              path="*"
+              path="jobs"
               element={authUser ? <Jobs /> : <Navigate to={"/login"} />}
+            />
+
+            <Route
+              path="/conversation/:receiverId"
+              element={authUser ? <Conversation /> : <Navigate to={"/login"} />}
+            />
+
+            <Route
+              path="/messaging"
+              element={authUser ? <Messaging /> : <Navigate to={"/login"} />}
             />
           </Route>
         </Routes>
