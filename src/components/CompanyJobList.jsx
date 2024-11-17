@@ -27,7 +27,7 @@ const CompanyJobList = ({ companyId }) => {
     return <p>Loading...</p>;
   }
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <main className="mt-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">

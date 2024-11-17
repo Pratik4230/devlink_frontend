@@ -167,7 +167,7 @@ const CompanyJobs = () => {
         </form>
       )}
 
-      <section className="flex flex-col items-center">
+      <section className="flex  flex-col items-center">
         <h2 className="text-2xl font-semibold">Jobs</h2>
         <CompanyJobList companyId={companyId} />
       </section>

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useMutation, useQueryClient } from "react-query";
 import { axiosInstance } from "../utils/axiosInstance";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const JobCard = ({ job }) => {
   // console.log("1 job", job);
@@ -70,6 +71,8 @@ const JobCard = ({ job }) => {
     },
   });
 
+  const jobId = _id;
+
   return (
     <main className="container mx-auto p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg max-w-3xl">
       <div className="space-y-6">
@@ -130,6 +133,11 @@ const JobCard = ({ job }) => {
               {status}
             </p>
           </div>
+          {isOwner && (
+            <Link to={`/applications/${jobId}`} className="mt-2">
+              <Button className=" flex w-full">View Applicants</Button>
+            </Link>
+          )}
         </section>
 
         <section className="text-gray-700 dark:text-gray-300 space-y-2">

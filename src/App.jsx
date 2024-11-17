@@ -161,7 +161,7 @@ function App() {
             />
 
             <Route
-              path="/applications"
+              path="/applications/:jobId"
               element={
                 authCompany ? <JobApplications /> : <Navigate to={"/login"} />
               }
