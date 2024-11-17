@@ -44,7 +44,7 @@ const CompanyProfile = () => {
     _id,
     locations,
     logo,
-  } = company?.data;
+  } = company?.data || {};
 
   const [formData, setFormData] = useState({
     bio: bio || "",
