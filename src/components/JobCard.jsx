@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDistanceToNow } from "date-fns";
-import { Dot } from "lucide-react";
+import { Dot, Eye, EyeOff, Trash } from "lucide-react";
+import { useSelector } from "react-redux";
+import { useMutation, useQueryClient } from "react-query";
+import { axiosInstance } from "../utils/axiosInstance";
+import { Button } from "@/components/ui/button";
 
 const JobCard = ({ job }) => {
   // console.log("1 job", job);
 
   //   companyName, companySize, locations, website,
+  let isOwner = false;
+  const LoggedInCompany = useSelector((state) => state.company.company);
+  const queryClient = useQueryClient();
+
   const {
     logo,
     company,
@@ -24,12 +32,48 @@ const JobCard = ({ job }) => {
     _id,
   } = job;
 
+  if (LoggedInCompany) {
+    // console.log(company?._id?.toString() == LoggedInCompany?._id?.toString());
+
+    if (company?._id?.toString() == LoggedInCompany?._id?.toString()) {
+      isOwner = true;
+    }
+  }
+
   const { companyName, bio, companySize, website } = company;
+
+  const deleteJobMutation = useMutation({
+    mutationFn: async (ID) => {
+      const response = await axiosInstance.delete(`/job/delete/${ID}`);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      console.log("sucess", data);
+      queryClient.invalidateQueries(["companyJobs", LoggedInCompany?._id]);
+    },
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
+
+  const statusMutation = useMutation({
+    mutationFn: async (ID) => {
+      const response = await axiosInstance.put(`/job/status/${ID}`);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      console.log("sucess", data);
+      queryClient.invalidateQueries(["companyJobs", LoggedInCompany?._id]);
+    },
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
 
   return (
     <main className="container mx-auto p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg max-w-3xl">
       <div className="space-y-6">
-        <section className="flex items-center space-x-4">
+        <section className="flex items-center relative space-x-4">
           <Avatar className="w-14 h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
             <AvatarImage src={logo} />
             <AvatarFallback>{companyName[0]}</AvatarFallback>
@@ -42,6 +86,21 @@ const JobCard = ({ job }) => {
               {title}
             </p>
           </div>
+
+          {isOwner && (
+            <div className="absolute top-0 right-0 flex flex-col items-center gap-2">
+              <Trash
+                onClick={() => deleteJobMutation.mutate(_id)}
+                className="cursor-pointer text-red-600"
+              />
+              <Button
+                onClick={() => statusMutation.mutate(_id)}
+                className="bg-white text-gray-950 hover:bg-gray-200"
+              >
+                {status === "active" ? <Eye /> : <EyeOff />}
+              </Button>
+            </div>
+          )}
         </section>
         <section className="flex flex-col items-center">
           <p className="text-xl font-semibold text-gray-800 dark:text-white">
@@ -82,7 +141,7 @@ const JobCard = ({ job }) => {
             {requirements}
           </p>
         </section>
-        {/* Company Details */}
+
         <section className="border-t border-gray-200 dark:border-gray-700 pt-4 text-gray-700 dark:text-gray-300">
           <p className="font-semibold text-lg">About {companyName}</p>
           <p className="text-sm leading-relaxed">{bio}</p>

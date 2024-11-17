@@ -5,11 +5,14 @@ import { useToast } from "@/hooks/use-toast";
 import PostCatd from "../components/PostCatd";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useSelector } from "react-redux";
 
 const feed = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [newPostContent, setNewPostContent] = useState("");
+
+  const user = useSelector((state) => state.user.user);
 
   const {
     data: feed = [],
@@ -79,29 +82,31 @@ const feed = () => {
   return (
     <main className="flex  justify-center py-8 bg-gradient-to-b from-gray-100 to-gray-50 mt-10 min-h-screen">
       <div className="max-w-2xl w-full">
-        <section className="w-full max-w-2xl mb-6">
-          <form
-            onSubmit={handleAddPost}
-            className="flex flex-col gap-4 p-4 bg-white shadow-md rounded-lg"
-          >
-            <h2 className="text-xl font-semibold text-gray-800">
-              Add New Post
-            </h2>
-            <Textarea
-              placeholder="What's on your mind?"
-              value={newPostContent}
-              onChange={(e) => setNewPostContent(e.target.value)}
-              className="border border-gray-300 rounded-md"
-            />
-            <Button
-              type="submit"
-              disabled={addPostMutation.isPending}
-              className="mt-2"
+        {user && (
+          <section className="w-full max-w-2xl mb-6">
+            <form
+              onSubmit={handleAddPost}
+              className="flex flex-col gap-4 p-4 bg-white shadow-md rounded-lg"
             >
-              {addPostMutation.isPending ? "Posting..." : "Post"}
-            </Button>
-          </form>
-        </section>
+              <h2 className="text-xl font-semibold text-gray-800">
+                Add New Post
+              </h2>
+              <Textarea
+                placeholder="What's on your mind?"
+                value={newPostContent}
+                onChange={(e) => setNewPostContent(e.target.value)}
+                className="border border-gray-300 rounded-md"
+              />
+              <Button
+                type="submit"
+                disabled={addPostMutation.isPending}
+                className="mt-2"
+              >
+                {addPostMutation.isPending ? "Posting..." : "Post"}
+              </Button>
+            </form>
+          </section>
+        )}
 
         {feed?.data?.length === 0 ? (
           <p className="text-center text-gray-500 py-10">No feed available</p>

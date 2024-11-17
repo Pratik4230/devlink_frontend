@@ -120,7 +120,13 @@ function App() {
 
             <Route
               path="/profile/:userId"
-              element={authUser ? <Profile /> : <Navigate to={"/login"} />}
+              element={
+                authUser || authCompany ? (
+                  <Profile />
+                ) : (
+                  <Navigate to={"/login"} />
+                )
+              }
             />
 
             <Route
