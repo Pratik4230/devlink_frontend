@@ -192,14 +192,15 @@ const PostCard = ({ post }) => {
             {likeCount} Likes
           </p>
         </div>
-
-        <Button
-          className="flex bg-white hover:bg-white text-black items-center space-x-2 hover:text-blue-600 dark:hover:text-indigo-100 transition duration-300"
-          onClick={() => setShowComments(!showComments)}
-        >
-          <MessageSquareQuote className="w-5  h-5" />
-          <span className="hidden  sm:inline">Comments</span>
-        </Button>
+        {user && (
+          <Button
+            className="flex bg-white hover:bg-white text-black items-center space-x-2 hover:text-blue-600 dark:hover:text-indigo-100 transition duration-300"
+            onClick={() => setShowComments(!showComments)}
+          >
+            <MessageSquareQuote className="w-5  h-5" />
+            <span className="hidden  sm:inline">Comments</span>
+          </Button>
+        )}
 
         <p className="text-gray-500 dark:text-gray-400">
           {formatDistanceToNow(new Date(createdAt))} ago
