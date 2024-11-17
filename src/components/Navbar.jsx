@@ -131,13 +131,6 @@ const Navbar = () => {
                 <BriefcaseBusiness className="inline-block w-5 h-5 mr-1" />
                 Jobs
               </Link>
-              <Link
-                to="/applications"
-                className="text-gray-700 hover:text-blue-600"
-              >
-                <FileUser className="inline-block w-5 h-5 mr-1" />
-                Job applications
-              </Link>
             </>
           )}
         </div>

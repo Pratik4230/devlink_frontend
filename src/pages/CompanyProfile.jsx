@@ -228,12 +228,12 @@ const CompanyProfile = () => {
       </div>
 
       <section className="mt-8">
-        <Tabs defaultValue="posts" className="w-[400px]">
+        <Tabs defaultValue="jobs" className="w-[400px]">
           <TabsList>
-            <TabsTrigger value="posts">Posts</TabsTrigger>
+            <TabsTrigger value="followers">Followers</TabsTrigger>
             <TabsTrigger value="jobs">Jobs</TabsTrigger>
           </TabsList>
-          <TabsContent value="posts">Posts</TabsContent>
+          <TabsContent value="followers">Followers</TabsContent>
           <TabsContent value="jobs">Jobs</TabsContent>
         </Tabs>
       </section>
