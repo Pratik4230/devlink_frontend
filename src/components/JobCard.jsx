@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDistanceToNow } from "date-fns";
-import { Dot, Eye, EyeOff, Trash } from "lucide-react";
+import { Dot, Eye, EyeOff, LoaderPinwheel, Trash } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useMutation, useQueryClient } from "react-query";
 import { axiosInstance } from "../utils/axiosInstance";
@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const JobCard = ({ job }) => {
   // console.log("1 job", job);
-
+  const [file, setFile] = useState(null);
   //   companyName, companySize, locations, website,
   let isOwner = false;
   const LoggedInCompany = useSelector((state) => state.company.company);
@@ -70,6 +70,43 @@ const JobCard = ({ job }) => {
       console.log("error", error);
     },
   });
+
+  const uploadResumeMutation = useMutation({
+    mutationFn: async (formData) => {
+      const response = await axiosInstance.post(
+        `/jobapplication/apply/${jobId}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      return response.data;
+    },
+    onSuccess: (data) => {
+      alert("Resume uploaded successfully!");
+      console.log("Success:", data);
+      setFile(null);
+    },
+    onError: (error) => {
+      alert("Failed to upload resume. Please try again.");
+      console.error("Upload error:", error);
+    },
+  });
+
+  const handleApply = () => {
+    if (!file) {
+      alert("Please select a file to upload.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("resume", file);
+    uploadResumeMutation.mutate(formData);
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   const jobId = _id;
 
@@ -151,6 +188,19 @@ const JobCard = ({ job }) => {
             <span className="font-semibold text-base">Requirements:</span>{" "}
             {requirements}
           </p>
+          {!LoggedInCompany && (
+            <>
+              {" "}
+              <Button onClick={handleApply} className="w-full">
+                {uploadResumeMutation.isLoading ? (
+                  <LoaderPinwheel className="animate-spin text-yellow-100" />
+                ) : (
+                  "Apply Now"
+                )}
+              </Button>
+              <input type="file" onChange={handleFileChange} />
+            </>
+          )}
         </section>
 
         <section className="border-t border-gray-200 dark:border-gray-700 pt-4 text-gray-700 dark:text-gray-300">
