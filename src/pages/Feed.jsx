@@ -6,6 +6,7 @@ import PostCatd from "../components/PostCatd";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useSelector } from "react-redux";
+import { LoaderPinwheel } from "lucide-react";
 
 const feed = () => {
   const { toast } = useToast();
@@ -65,8 +66,7 @@ const feed = () => {
   if (feedLoading) {
     return (
       <div className="flex  items-center justify-center py-20">
-        <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
-        <p className="text-gray-500 ml-4">Loading feed...</p>
+        <LoaderPinwheel className="animate-spin text-blue-600 " />
       </div>
     );
   }
@@ -80,7 +80,7 @@ const feed = () => {
   }
 
   return (
-    <main className="flex  justify-center py-8 bg-gradient-to-b from-gray-100 to-gray-50 mt-10 min-h-screen">
+    <main className="flex  justify-center py-8 bg-gradient-to-b from-gray-100 to-gray-50 mt-5 min-h-screen">
       <div className="max-w-2xl w-full">
         {user && (
           <section className="w-full max-w-2xl mb-6">

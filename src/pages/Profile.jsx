@@ -17,6 +17,8 @@ const Profile = () => {
   const { userId } = useParams();
   // console.log(userId);
 
+  const company = useSelector((state) => state.company.company);
+
   const [editMode, setEditMode] = useState(false);
   const [Headline, setHeadline] = useState("");
   const [Location, setLocation] = useState("");
@@ -183,7 +185,7 @@ const Profile = () => {
               location
             )}
           </p>
-          <p className="text-blue-600 mt-2 font-medium">Connections</p>
+          {company && <p className="text-blue-600 mt-2 font-medium">{email}</p>}
         </div>
 
         {isOwner && (
