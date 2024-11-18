@@ -149,7 +149,11 @@ function App() {
             <Route
               path="/company/:companyId"
               element={
-                authCompany ? <CompanyProfile /> : <Navigate to={"/login"} />
+                authUser || authCompany ? (
+                  <CompanyProfile />
+                ) : (
+                  <Navigate to={"/login"} />
+                )
               }
             />
 

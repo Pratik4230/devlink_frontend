@@ -82,9 +82,12 @@ const JobCard = ({ job }) => {
             <AvatarFallback>{companyName[0]}</AvatarFallback>
           </Avatar>
           <div>
-            <p className="text-2xl font-bold text-gray-800 dark:text-white">
-              {companyName}
-            </p>
+            <Link to={`/company/${company?._id}`}>
+              {" "}
+              <p className="text-2xl font-bold hover:text-blue-600 text-gray-800 dark:text-white">
+                {companyName}
+              </p>{" "}
+            </Link>
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               {title}
             </p>

@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { axiosInstance } from "../utils/axiosInstance.js";
 import { toast } from "../hooks/use-toast";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import JobCard from "../components/JobCard";
+import { LoaderPinwheel, UserCheck, UserPlus } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const CompanyProfile = () => {
   const { companyId } = useParams();
   const [isEditing, setIsEditing] = useState(false);
   const queryClient = useQueryClient();
+
+  const user = useSelector((state) => state.user.user);
 
   const {
     data: company,
@@ -44,6 +49,7 @@ const CompanyProfile = () => {
     _id,
     locations,
     logo,
+    isFollowing,
   } = company?.data || {};
 
   const [formData, setFormData] = useState({
@@ -52,6 +58,54 @@ const CompanyProfile = () => {
     companySize: companySize || "",
     website: website || "",
     locations: locations?.join(", ") || "",
+  });
+
+  const {
+    data: companyJobs,
+    isLoading: companyJobsLoading,
+    isError: companyJobsError,
+  } = useQuery({
+    queryKey: ["companyJobs", _id],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`/job/company/${companyId}`);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      // toast({
+      //   description: data.message || "company profile fetched successfully",
+      // });
+    },
+    onError: (error) => {
+      console.log("error", error);
+      toast({
+        variant: "destructive",
+        title: error?.response?.data?.message,
+      });
+    },
+  });
+
+  const {
+    data: followers,
+    isLoading: followersLoading,
+    isError: followersError,
+  } = useQuery({
+    queryKey: ["followers", _id],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`/follow/followers/${_id}`);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      // toast({
+      //   description: data.message ",
+      // });
+    },
+    onError: (error) => {
+      console.log("error", error);
+      toast({
+        variant: "destructive",
+        title: error?.response?.data?.message,
+      });
+    },
   });
 
   const handleChange = (e) => {
@@ -80,6 +134,30 @@ const CompanyProfile = () => {
     },
   });
 
+  const followMutation = useMutation({
+    mutationFn: async (companyID) => {
+      console.log("companyID", companyID);
+
+      const response = await axiosInstance.post(`/follow/company/${companyID}`);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+
+      queryClient.invalidateQueries(["company"]);
+      toast({
+        description: data.message || "company followed successfully",
+      });
+    },
+    onError: (error) => {
+      console.log("error", error);
+      toast({
+        variant: "destructive",
+        title: error?.response?.data?.message,
+      });
+    },
+  });
+
   const handleSubmit = async () => {
     const updatedData = {
       ...formData,
@@ -90,15 +168,21 @@ const CompanyProfile = () => {
   };
 
   if (companyLoading) {
-    return <p>loading company profile</p>;
+    return (
+      <p className="text-center text-gray-500 dark:text-gray-400 mt-10 text-lg font-medium">
+        loading company profile
+      </p>
+    );
   }
 
-  console.log("company", company);
+  // console.log("company", company);
+  // console.log("companyJobs", companyJobs);
+  // console.log("followers", followers);
 
   return (
     <main className="mt-6 p-6 max-w-5xl mx-auto bg-white shadow-lg rounded-lg">
-      <section className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
-        <div className="w-24 h-24 md:w-32 md:h-32 flex-shrink-0">
+      <section className="flex flex-col  items-center  relative ">
+        <div className="">
           <Avatar className="w-14  h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
             <AvatarImage src={logo} />
             <AvatarFallback>{companyName?.[0]}</AvatarFallback>
@@ -121,6 +205,18 @@ const CompanyProfile = () => {
             <p className="text-gray-500 mt-2">{bio}</p>
           )}
         </div>
+        {user && (
+          <p
+            onClick={() => followMutation.mutate(_id)}
+            className="absolute top-2 right-2 border-2 border-orange-400 px-3 py-1 rounded-lg text-blue-600 font-medium text-base cursor-pointer transition duration-200 ease-in-out hover:bg-blue-600 hover:text-white hover:shadow-lg"
+          >
+            {isFollowing ? (
+              <UserCheck className="w-5 h-5" />
+            ) : (
+              <UserPlus className="w-5 h-5" />
+            )}
+          </p>
+        )}
       </section>
 
       <section className="mt-8">
@@ -228,13 +324,64 @@ const CompanyProfile = () => {
       </div>
 
       <section className="mt-8">
-        <Tabs defaultValue="jobs" className="w-[400px]">
+        <Tabs defaultValue="followers" className="w-[400px]">
           <TabsList>
             <TabsTrigger value="followers">Followers</TabsTrigger>
             <TabsTrigger value="jobs">Jobs</TabsTrigger>
           </TabsList>
-          <TabsContent value="followers">Followers</TabsContent>
-          <TabsContent value="jobs">Jobs</TabsContent>
+
+          <TabsContent value="followers">
+            {followersLoading && (
+              <LoaderPinwheel className="animate-spin text-blue-600" />
+            )}
+            {!followers?.data || followers?.data?.length == 0 ? (
+              <p className="text-center text-gray-500 dark:text-gray-400 mt-10 text-lg font-medium">
+                No followers available
+              </p>
+            ) : (
+              followers?.data?.map((follower) => (
+                <div
+                  key={follower?._id}
+                  className="flex flex-col items-center bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 ease-in-out max-w-xs text-center"
+                >
+                  <Avatar className="w-16 h-16 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md mb-4">
+                    <AvatarImage src={follower?.Follower?.avatar?.url} />
+                    <AvatarFallback className="bg-gray-200 text-gray-800 font-semibold">
+                      {follower?.Follower?.fullname?.[0]}
+                    </AvatarFallback>
+                  </Avatar>
+
+                  <Link to={`/profile/${follower?.Follower?._id}`}>
+                    {" "}
+                    <p className="text-lg font-semibold hover:text-blue-600 text-gray-800">
+                      {follower?.Follower?.fullname}
+                    </p>{" "}
+                  </Link>
+                  <p className="text-sm text-gray-600">
+                    {follower?.Follower?.headline}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {follower?.Follower?.location}
+                  </p>
+                </div>
+              ))
+            )}
+          </TabsContent>
+
+          <TabsContent value="jobs">
+            {companyJobsLoading && (
+              <LoaderPinwheel className="animate-spin text-blue-600" />
+            )}
+            {!companyJobs?.data || companyJobs?.data?.length == 0 ? (
+              <p className="text-center text-gray-500 dark:text-gray-400 mt-10 text-lg font-medium">
+                No jobs available
+              </p>
+            ) : (
+              companyJobs?.data?.map((job) => (
+                <JobCard key={job?._id} job={job} />
+              ))
+            )}
+          </TabsContent>
         </Tabs>
       </section>
     </main>
