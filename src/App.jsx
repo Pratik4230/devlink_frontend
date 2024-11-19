@@ -35,11 +35,6 @@ function App() {
       } catch (error) {
         console.log("auth user error", error);
 
-        // toast({
-        //   variant: "destructive",
-        //   title: error?.message,
-        //   description: error?.response?.data?.message,
-        // });
         if (error.response && error.response.status === 401) {
           return null;
         }
@@ -64,11 +59,6 @@ function App() {
       } catch (error) {
         console.log("auth company error", error);
 
-        // toast({
-        //   variant: "destructive",
-        //   title: error?.message,
-        //   description: error?.response?.data?.message,
-        // });
         if (error.response && error.response.status === 401) {
           return null;
         }
