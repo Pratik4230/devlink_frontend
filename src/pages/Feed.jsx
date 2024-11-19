@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useSelector } from "react-redux";
 import { LoaderPinwheel } from "lucide-react";
+import Highlights from "../components/Highlights";
 
 const feed = () => {
   const { toast } = useToast();
@@ -80,7 +81,8 @@ const feed = () => {
   }
 
   return (
-    <main className="flex  justify-center py-8 bg-gradient-to-b from-gray-100 to-gray-50 mt-5 min-h-screen">
+    <main className="flex flex-col  items-center py-2 bg-gradient-to-b from-gray-100 to-gray-50 mt-5 min-h-screen  ">
+      <Highlights />
       <div className="max-w-2xl w-full">
         {user && (
           <section className="w-full max-w-2xl mb-6">
