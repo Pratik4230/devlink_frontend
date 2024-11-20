@@ -20,6 +20,8 @@ import { addCompany } from "./store/CompanySlice";
 import CompanyProfile from "./pages/CompanyProfile";
 import CompanyJobs from "./pages/CompanyJobs";
 import JobApplications from "./pages/JobApplications";
+import CompanyLogin from "./pages/CompanyLogin";
+
 function App() {
   const dispatch = useDispatch();
   const { toast } = useToast();
@@ -48,7 +50,7 @@ function App() {
     },
   });
 
-  const { data: authCompany, isLoading: companyLoading } = useQuery({
+  const { data: authCompany } = useQuery({
     queryKey: ["authCompany"],
 
     queryFn: async () => {
@@ -72,8 +74,15 @@ function App() {
     },
   });
 
-  if (isLoading || companyLoading) {
-    return <p>loading</p>;
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-blue-50">
+        <p className="text-lg font-semibold text-gray-700 mb-4 px-2 text-center">
+          "⏳The server is waking up! Just a moment; your awesome content is on
+          its way, and we can't wait for you to see it!"
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -162,6 +171,10 @@ function App() {
               element={
                 authCompany ? <JobApplications /> : <Navigate to={"/login"} />
               }
+            />
+            <Route
+              path="/companylogin"
+              element={authCompany ? <Navigate to={"/"} /> : <CompanyLogin />}
             />
           </Route>
         </Routes>

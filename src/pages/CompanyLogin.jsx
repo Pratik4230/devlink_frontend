@@ -33,7 +33,7 @@ const LoginSchema = z.object({
     ),
 });
 
-const Login = () => {
+const CompanyLogin = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -48,12 +48,12 @@ const Login = () => {
 
   const mutation = useMutation({
     mutationFn: async (formData) => {
-      const response = await axiosInstance.post("/user/login", formData);
+      const response = await axiosInstance.post("/company/login", formData);
       return response.data;
     },
     onSuccess: (data) => {
       toast({ description: data.message || "Login Successful" });
-      queryClient.invalidateQueries(["authUser"]);
+      queryClient.invalidateQueries(["authCompany"]);
       navigate("/");
     },
 
@@ -61,7 +61,7 @@ const Login = () => {
       console.log("error", error);
       toast({
         variant: "destructive",
-        description: error.response.data.message || "login user error",
+        description: error.response.data.message || "login company error",
       });
     },
   });
@@ -149,10 +149,10 @@ const Login = () => {
             </p>
 
             <Link
-              to="/companylogin"
-              className=" flex justify-center text-black-600 hover:text-blue-600  font-semibold underline"
+              to="/login"
+              className=" flex justify-center text-black-600 hover:text-blue-600 font-semibold underline"
             >
-              login as company
+              Login as User
             </Link>
           </form>
         </Form>
@@ -161,4 +161,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default CompanyLogin;
