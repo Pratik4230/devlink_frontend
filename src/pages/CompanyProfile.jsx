@@ -142,7 +142,7 @@ const CompanyProfile = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
 
       queryClient.invalidateQueries(["company"]);
       toast({
@@ -163,7 +163,7 @@ const CompanyProfile = () => {
       ...formData,
       locations: formData.locations.split(",").map((loc) => loc.trim()),
     };
-    console.log("updatedData", updatedData);
+    // console.log("updatedData", updatedData);
     updateMutation.mutate(updatedData);
   };
 

@@ -62,7 +62,7 @@ const ConnectionCard = ({ connection, type }) => {
 
   const acceptConnection = useMutation({
     mutationFn: async (ID) => {
-      console.log("accept," + ID);
+      // console.log("accept," + ID);
 
       const response = await axiosInstance.put(`/connection/accept/${ID}`);
       return response.data;
@@ -70,7 +70,7 @@ const ConnectionCard = ({ connection, type }) => {
     onSuccess: (data) => {
       queryClient.invalidateQueries(["Connections"]);
       queryClient.invalidateQueries(["Requests"]);
-      console.log("accept success", data);
+      // console.log("accept success", data);
       toast({
         description: data.message || "Connection accepted successfully",
       });

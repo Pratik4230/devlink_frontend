@@ -26,6 +26,7 @@ const Conversation = () => {
       );
       return response.data;
     },
+    // refetchInterval: 1000,
     enabled: !!receiverId,
   });
 

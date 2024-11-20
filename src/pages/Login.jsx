@@ -55,11 +55,11 @@ const Login = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      console.log("sucess", data);
+      // console.log("sucess", data);
       toast({ description: data.message || "Login Successful" });
       queryClient.invalidateQueries(["authUser"]);
       queryClient.invalidateQueries(["authCompany"]);
-
+      get().connectSocket();
       navigate("/");
     },
 
@@ -79,7 +79,7 @@ const Login = () => {
   });
 
   function onSubmit(values) {
-    console.log(values);
+    // console.log(values);
     mutation.mutate(values);
   }
 

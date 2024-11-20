@@ -85,9 +85,7 @@ const Highlights = () => {
   };
 
   const handleDeleteHighlight = (highlightId) => {
-    if (window.confirm("Are you sure you want to delete this highlight?")) {
-      deleteHighlightMutation.mutate(highlightId);
-    }
+    deleteHighlightMutation.mutate(highlightId);
   };
 
   if (isLoading) {
@@ -95,10 +93,10 @@ const Highlights = () => {
   }
 
   return (
-    <div className=" max-w-2xl relative ">
+    <div className=" w-full bg-white rounded-lg shadow-lg p-4  max-w-2xl mb-5  relative ">
       <Button
         onClick={() => setShowCreateForm(!showCreateForm)}
-        className=" absolute right-1 top-4 opacity-80 hover:opacity-100  text-white"
+        className=" absolute right-1  opacity-80 hover:opacity-100  text-white"
       >
         {showCreateForm ? "Cancel" : <CirclePlus size={32} />}
       </Button>
@@ -150,7 +148,7 @@ const Highlights = () => {
               No highlights yet. Create your first highlight now!
             </p>
           ) : (
-            <div className="flex border-2 border-blue-500  max-w-2xl space-x-4 overflow-x-auto scrollbar-hide ">
+            <div className="flex  px-2 py-2   max-w-2xl space-x-4 overflow-x-auto scrollbar-hide ">
               {Highlights.data.map((highlight) => (
                 <Popover key={highlight.highlightId}>
                   <PopoverTrigger asChild>
@@ -158,7 +156,7 @@ const Highlights = () => {
                       <img
                         src={highlight.image}
                         alt="Highlight"
-                        className="w-16 h-16 rounded-full border-2 border-blue-500 object-contain"
+                        className="w-16 h-16 ring-4 ring-orange-400 transition duration-300 ease-in-out transform  hover:ring-purple-300 hover:scale-105   rounded-full  object-cover"
                       />
                     </button>
                   </PopoverTrigger>

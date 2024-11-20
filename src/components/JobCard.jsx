@@ -49,7 +49,7 @@ const JobCard = ({ job }) => {
       return response.data;
     },
     onSuccess: (data) => {
-      console.log("sucess", data);
+      // console.log("sucess", data);
       queryClient.invalidateQueries(["companyJobs", LoggedInCompany?._id]);
     },
     onError: (error) => {
@@ -63,7 +63,7 @@ const JobCard = ({ job }) => {
       return response.data;
     },
     onSuccess: (data) => {
-      console.log("sucess", data);
+      // console.log("sucess", data);
       queryClient.invalidateQueries(["companyJobs", LoggedInCompany?._id]);
     },
     onError: (error) => {
@@ -84,7 +84,7 @@ const JobCard = ({ job }) => {
     },
     onSuccess: (data) => {
       alert("Resume uploaded successfully!");
-      console.log("Success:", data);
+      // console.log("Success:", data);
       setFile(null);
     },
     onError: (error) => {

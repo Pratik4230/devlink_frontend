@@ -21,7 +21,7 @@ const JobApplications = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      console.log("data", data);
+      // console.log("data", data);
     },
     onError: (error) => {
       console.log("error", error);

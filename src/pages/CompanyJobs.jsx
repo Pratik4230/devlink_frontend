@@ -32,7 +32,7 @@ const CompanyJobs = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      console.log("data", data);
+      // console.log("data", data);
       queryClient.invalidateQueries(["companyJobs", companyId]);
 
       toast({
@@ -67,7 +67,6 @@ const CompanyJobs = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const skillsArray = formData.skills.split(",").map((skill) => skill.trim());
-    console.log("formData", formData);
 
     createJobMutation.mutate({ ...formData, skills: skillsArray });
     setShowCreateJobForm(false);

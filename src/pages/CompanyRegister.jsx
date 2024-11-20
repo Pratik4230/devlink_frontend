@@ -69,7 +69,7 @@ const CompanyRegister = () => {
       toast({ description: data.message || " Successfully registered" });
       queryClient.invalidateQueries(["authCompany"]);
       navigate("/");
-      console.log("sucess", data);
+      // console.log("sucess", data);
     },
     onError: (error) => {
       console.log("error", error);
@@ -82,7 +82,7 @@ const CompanyRegister = () => {
   });
 
   function onSubmit(values) {
-    console.log(values);
+    // console.log(values);
     mutation.mutate(values);
     // console.log("onsub");
   }

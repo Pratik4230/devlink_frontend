@@ -61,7 +61,7 @@ const Navbar = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
       toast({ title: data.message || "Logout successful" });
       dispatch(removeUser());
       dispatch(removeCompany());

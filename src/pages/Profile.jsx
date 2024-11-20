@@ -86,12 +86,12 @@ const Profile = () => {
   const profileUpdateMutation = useMutation({
     mutationFn: async (updatedFields) => {
       const response = await axiosInstance.put(`/user/update`, updatedFields);
-      console.log("response", response);
+      // console.log("response", response);
 
       return response.data;
     },
     onSuccess: (data) => {
-      console.log("data", data);
+      // console.log("data", data);
 
       setTimeout(() => {
         queryClient.invalidateQueries(["profile"]);
@@ -143,10 +143,10 @@ const Profile = () => {
     if (Education) updateFields.education = Education;
     if (Experience) updateFields.experience = Experience;
 
-    console.log("updateFields", updateFields);
+    // console.log("updateFields", updateFields);
 
     profileUpdateMutation.mutate(updateFields);
-    console.log("mut init");
+
     setEditMode(false);
   };
 

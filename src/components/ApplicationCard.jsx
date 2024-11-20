@@ -4,7 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
 
 const ApplicationCard = ({ application }) => {
-  console.log("application", application);
+  // console.log("application", application);
 
   const { _id, createdAt, resume, applicant } = application;
   const { fullname, headline, email, avatar } = applicant;

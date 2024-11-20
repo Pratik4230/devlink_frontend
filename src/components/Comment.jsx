@@ -11,6 +11,8 @@ import { useSelector } from "react-redux";
 
 const Comment = ({ comment, postId }) => {
   const { content, _id, createdAt, isLiked, likeCount } = comment;
+  // console.log("comment", comment);
+
   const { fullname, headline, avatar } = comment?.users;
 
   const [isEditing, setIsEditing] = useState(false);

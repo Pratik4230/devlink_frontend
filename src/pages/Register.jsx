@@ -73,9 +73,7 @@ const Register = () => {
   });
 
   function onSubmit(values) {
-    console.log(values);
     mutation.mutate(values);
-    console.log("onsub");
   }
 
   return (
