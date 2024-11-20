@@ -106,7 +106,10 @@ function App() {
               }
             />
 
-            <Route path="/network" element={<Network />} />
+            <Route
+              path="/network"
+              element={authUser ? <Network /> : <Navigate to={"/login"} />}
+            />
 
             <Route
               path="/profile/:userId"

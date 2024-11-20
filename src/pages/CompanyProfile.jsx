@@ -136,7 +136,7 @@ const CompanyProfile = () => {
 
   const followMutation = useMutation({
     mutationFn: async (companyID) => {
-      console.log("companyID", companyID);
+      // console.log("companyID", companyID);
 
       const response = await axiosInstance.post(`/follow/company/${companyID}`);
       return response.data;
@@ -145,6 +145,8 @@ const CompanyProfile = () => {
       // console.log(data);
 
       queryClient.invalidateQueries(["company"]);
+      queryClient.invalidateQueries(["followers", _id]);
+
       toast({
         description: data.message || "company followed successfully",
       });
@@ -294,35 +296,36 @@ const CompanyProfile = () => {
         </div>
       </section>
 
-      <div className="mt-8 flex space-x-4">
-        {isEditing ? (
-          <>
+      {!user && (
+        <div className="mt-8 flex space-x-4">
+          {isEditing ? (
+            <>
+              <button
+                onClick={handleSubmit}
+                disabled={updateMutation?.isLoading}
+                className={`bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 ${
+                  updateMutation?.isLoading && "opacity-50 cursor-not-allowed"
+                }`}
+              >
+                {updateMutation?.isLoading ? "Saving..." : "Save Changes"}
+              </button>
+              <button
+                onClick={() => setIsEditing(false)}
+                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+              >
+                Cancel
+              </button>
+            </>
+          ) : (
             <button
-              onClick={handleSubmit}
-              disabled={updateMutation?.isLoading}
-              className={`bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 ${
-                updateMutation?.isLoading && "opacity-50 cursor-not-allowed"
-              }`}
+              onClick={() => setIsEditing(true)}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
             >
-              {updateMutation?.isLoading ? "Saving..." : "Save Changes"}
+              Edit Details
             </button>
-            <button
-              onClick={() => setIsEditing(false)}
-              className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-            >
-              Cancel
-            </button>
-          </>
-        ) : (
-          <button
-            onClick={() => setIsEditing(true)}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-          >
-            Edit Details
-          </button>
-        )}
-      </div>
-
+          )}
+        </div>
+      )}
       <section className="mt-8">
         <Tabs defaultValue="followers" className="w-[400px]">
           <TabsList>

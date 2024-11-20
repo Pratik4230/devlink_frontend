@@ -179,7 +179,12 @@ const Register = () => {
               </Link>
             </p>
 
-            <Link to={"/registercompany"}>Register as Company</Link>
+            <Link
+              to={"/registercompany"}
+              className="flex justify-center hover:text-blue-600"
+            >
+              Register as Company
+            </Link>
           </form>
         </Form>
       </div>

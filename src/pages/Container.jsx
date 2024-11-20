@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import FooterBar from "../components/FooterBar";
-import Network from "./Network";
 
 const Container = () => {
   return (

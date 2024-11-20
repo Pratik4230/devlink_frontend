@@ -59,7 +59,6 @@ const Login = () => {
       toast({ description: data.message || "Login Successful" });
       queryClient.invalidateQueries(["authUser"]);
       queryClient.invalidateQueries(["authCompany"]);
-      get().connectSocket();
       navigate("/");
     },
 

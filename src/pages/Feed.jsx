@@ -16,7 +16,7 @@ const feed = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [newPostContent, setNewPostContent] = useState("");
-  const [query, setQuery] = useState(null);
+  const [query, setQuery] = useState("");
   const user = useSelector((state) => state.user.user);
 
   const {
@@ -113,7 +113,7 @@ const feed = () => {
 
   return (
     <main className="flex flex-col  items-center py-2 bg-gradient-to-b from-gray-100 to-gray-50 mt-5 min-h-screen  ">
-      <Highlights className="mb-5" />
+      {user && <Highlights className="mb-5" />}
 
       <section className=" max-w-2xl px-5 my-2   rounded-lg  w-full">
         <div className=" flex ">

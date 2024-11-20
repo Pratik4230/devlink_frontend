@@ -127,12 +127,12 @@ const Network = () => {
   // console.log("Connections sent", ConnectionsSent);
   // console.log("Connections Requests", Requests);
   // console.log("usersFeed", usersFeed);
-  console.log("query", query);
+
   // console.log("searchUsers", searchUsers?.data);
 
   return (
     <div className="mt-10 max-w-2xl mx-auto p-6 bg-white  rounded-xl shadow-lg">
-      <Tabs defaultValue="Connections" className="w-full">
+      <Tabs defaultValue="Explore" className="w-full">
         <TabsList className="flex justify-around mb-6 bg-gray-200 rounded-lg p-2">
           <TabsTrigger
             value="RequestSent"
