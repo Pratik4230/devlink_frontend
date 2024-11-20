@@ -8,12 +8,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { useSelector } from "react-redux";
 import { LoaderPinwheel } from "lucide-react";
 import Highlights from "../components/Highlights";
+import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
+import UserCard from "../components/UserCard";
 
 const feed = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [newPostContent, setNewPostContent] = useState("");
-
+  const [query, setQuery] = useState(null);
   const user = useSelector((state) => state.user.user);
 
   const {
@@ -55,6 +58,34 @@ const feed = () => {
     },
   });
 
+  const searchUsers = useMutation({
+    mutationKey: ["users"],
+    mutationFn: async (query) => {
+      const response = await axiosInstance.get(
+        `/connection/search?query=${query}`
+      );
+      return response.data;
+    },
+    onSuccess: (data) => {
+      // console.log("sucees", data);
+      // toast({
+      //   description: data.message || " users fetched successfully",
+      // });
+    },
+    onError: (error) => {
+      console.log("error", error);
+      toast({
+        variant: "destructive",
+        description: error?.response?.data?.message,
+      });
+    },
+  });
+
+  const handleSearch = () => {
+    // e.preventDefault();
+    searchUsers.mutate(query);
+  };
+
   const handleAddPost = (e) => {
     e.preventDefault();
     if (newPostContent.trim()) {
@@ -82,7 +113,30 @@ const feed = () => {
 
   return (
     <main className="flex flex-col  items-center py-2 bg-gradient-to-b from-gray-100 to-gray-50 mt-5 min-h-screen  ">
-      <Highlights />
+      <Highlights className="mb-5" />
+
+      <section className=" max-w-2xl px-5 my-2   rounded-lg  w-full">
+        <div className=" flex ">
+          <Input
+            placeholder="Search"
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className=" rounded-md  bg-gray-900 text-white  "
+          />
+          <Button onClick={() => handleSearch()}> Search </Button>
+        </div>
+        <section>
+          {searchUsers &&
+            query &&
+            searchUsers.data &&
+            searchUsers.data?.data?.length > 0 &&
+            searchUsers?.data?.data?.map((user) => (
+              <UserCard key={user?._id} user={user} isSearch={"searching"} />
+            ))}
+        </section>
+      </section>
+
       <div className="max-w-2xl w-full">
         {user && (
           <section className="w-full max-w-2xl mb-6">

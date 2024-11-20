@@ -6,10 +6,10 @@ import { axiosInstance } from "../utils/axiosInstance";
 import { useToast } from "@/hooks/use-toast";
 import { LoaderPinwheel } from "lucide-react";
 import { Link } from "react-router-dom";
-const UserCard = ({ user }) => {
+const UserCard = ({ user, isSearch }) => {
   //   console.log(user);
 
-  const { avatar, fullname, headline, education, _id } = user;
+  const { avatar, fullname, headline, education, _id, skills } = user;
   const { toast } = useToast();
 
   const queryClient = useQueryClient();
@@ -27,7 +27,7 @@ const UserCard = ({ user }) => {
       });
     },
     onError: (error) => {
-      console.log(error);
+      console.log("errror", error);
       toast({
         variant: "destructive",
         title: error?.response?.data?.message,
@@ -50,27 +50,30 @@ const UserCard = ({ user }) => {
         <section className="flex mb-2 flex-col items-center space-y-1">
           <Link to={`/profile/${_id}`}>
             {" "}
-            <p className="text-lg  font-semibold text-gray-800 dark:text-white">
+            <p className="text-lg  font-semibold text-gray-800 hover:text-blue-600 dark:text-white">
               {fullname}
             </p>{" "}
           </Link>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{headline}</p>
+          <p className=" text-gray-950 dark:text-gray-400">{headline}</p>
+          <p className="text-sm"> {skills.join(", ")} </p>
           <p className="text-sm text-gray-600 dark:text-gray-300 italic">
             {education?.institution}
           </p>
         </section>
 
-        <Button
-          className="bg-gradient-to-r mt-2 from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 focus:outline-none focus:ring focus:ring-purple-300 active:bg-blue-700 px-3 py-2 rounded-lg text-white font-semibold shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-          onClick={() => sendConnection.mutate()}
-          disabled={sendConnection.isLoading}
-        >
-          {sendConnection.isLoading ? (
-            <LoaderPinwheel className=" animate-spin " />
-          ) : (
-            "Connect"
-          )}
-        </Button>
+        {!isSearch && (
+          <Button
+            className="bg-gradient-to-r mt-2 from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 focus:outline-none focus:ring focus:ring-purple-300 active:bg-blue-700 px-3 py-2 rounded-lg text-white font-semibold shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+            onClick={() => sendConnection.mutate()}
+            disabled={sendConnection.isLoading}
+          >
+            {sendConnection.isLoading ? (
+              <LoaderPinwheel className=" animate-spin " />
+            ) : (
+              "Connect"
+            )}
+          </Button>
+        )}
       </div>
     </div>
   );
