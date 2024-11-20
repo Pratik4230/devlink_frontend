@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import "./App.css";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
-import Feed from "./pages/feed";
+import Feed from "./pages/Feed";
 import Container from "./pages/Container";
 import Register from "./pages/Register";
 import { axiosInstance } from "./utils/axiosInstance";
