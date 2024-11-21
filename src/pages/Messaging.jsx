@@ -23,7 +23,7 @@ const Messaging = () => {
   //   console.log("connections", connections);
 
   return (
-    <main className="p-6 bg-gray-50 min-h-screen">
+    <main className="p-6 bg-gray-50 min-h-screen my-7 ">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">
           Conversations

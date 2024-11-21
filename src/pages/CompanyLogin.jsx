@@ -71,13 +71,16 @@ const CompanyLogin = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-6">
-      <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold text-center text-blue-700 mb-6">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br  from-blue-50 to-blue-100 p-0 lg:p-6">
+      <div className="w-full max-w-md p-2 lg:p-8 bg-white shadow-lg rounded-lg  py-9">
+        <h2 className="text-2xl font-bold text-center text-blue-700 mb-4 lg:mb-6">
           Welcome Back
         </h2>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className=" space-y-3 lg:space-y-6"
+          >
             <FormField
               control={form.control}
               name="email"
@@ -91,7 +94,7 @@ const CompanyLogin = () => {
                       placeholder="enter your email"
                       type="email"
                       {...field}
-                      className="w-full px-4 py-2 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="w-full px-2 lg:px-4 py-2 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
                   </FormControl>
                   <FormDescription className="text-sm text-gray-500">
@@ -115,7 +118,7 @@ const CompanyLogin = () => {
                       placeholder="enter your password"
                       type="password"
                       {...field}
-                      className="w-full px-4 py-2 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="w-full px-2 lg:px-4 py-2 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
                   </FormControl>
                   <FormDescription className="text-sm text-gray-500">
@@ -142,7 +145,7 @@ const CompanyLogin = () => {
               Don't have an account?{" "}
               <Link
                 to="/register"
-                className="text-teal-600 hover:text-teal-700 font-semibold underline"
+                className="text-black hover:text-blue-600 font-semibold underline"
               >
                 Create an account
               </Link>

@@ -77,16 +77,19 @@ const Register = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 p-6">
-      <div className="w-full max-w-lg p-10 bg-white shadow-xl rounded-2xl transform hover:scale-105 transition-transform duration-300">
-        <h2 className="text-3xl font-bold text-center text-purple-700 mb-6">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 p-0 lg:px-6">
+      <div className="w-full max-w-lg p-2 lg:p-10 bg-white shadow-xl rounded-2xl transform hover:scale-105 transition-transform duration-300">
+        <h2 className=" text-2xl lg:text-3xl font-bold text-center text-purple-700 mb-4 lg:mb-6">
           Create Your Account
         </h2>
-        <p className="text-center text-gray-500 mb-8">
+        <p className="text-center text-gray-500 mb-4 lg:mb-8">
           Join us and explore endless possibilities!
         </p>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className=" space-y-3 lg:space-y-6"
+          >
             <FormField
               control={form.control}
               name="fullname"
@@ -99,7 +102,7 @@ const Register = () => {
                     <Input
                       placeholder="Enter you full name"
                       {...field}
-                      className="w-full px-4 py-2 border border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400"
+                      className="w-full px-2 lg:px-4 py-2 border border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400"
                     />
                   </FormControl>
                   <FormDescription className="text-sm text-gray-500">
@@ -123,7 +126,7 @@ const Register = () => {
                       placeholder="Enter your email"
                       type="email"
                       {...field}
-                      className="w-full px-4 py-2 border border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400"
+                      className="w-full px-2 lg:px-4 py-2 border border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400"
                     />
                   </FormControl>
                   <FormDescription className="text-sm text-gray-500">
@@ -147,7 +150,7 @@ const Register = () => {
                       placeholder="Enter your password"
                       type="password"
                       {...field}
-                      className="w-full px-4 py-2 border border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400"
+                      className="w-full px-2 lg:px-4 py-2 border border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400"
                     />
                   </FormControl>
                   <FormDescription className="text-sm text-gray-500">

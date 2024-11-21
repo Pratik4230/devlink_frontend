@@ -151,14 +151,14 @@ const Profile = () => {
   };
 
   return (
-    <div className="mt-10 max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <section className="flex items-center justify-center space-x-4 mb-6 relative ">
-        <Avatar className="w-14 h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
+    <div className="my-10 max-w-3xl mx-auto p-1 md:p-6 bg-white shadow-lg rounded-lg">
+      <section className="flex items-center justify-center  space-x-4 mb-6 relative ">
+        <Avatar className="md:w-14 md:h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
           <AvatarImage src={avatar} />
           <AvatarFallback>{fullname[0]}</AvatarFallback>
         </Avatar>
         <div className="">
-          <p className="text-2xl font-semibold">{fullname}</p>
+          <p className=" text-xl md:text-2xl font-semibold">{fullname}</p>
           <p className="text-gray-500 flex  ">
             {editMode ? (
               <Input
@@ -191,7 +191,8 @@ const Profile = () => {
         {isOwner && (
           <Edit
             onClick={() => setEditMode(!editMode)}
-            className="absolute top-2 right-5 cursor-pointer"
+            className="absolute top-2 right-2 md:right-5 cursor-pointer"
+            size={24}
           >
             {" "}
           </Edit>

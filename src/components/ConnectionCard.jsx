@@ -1,4 +1,4 @@
-import { LoaderPinwheel, ShieldCheck, ShieldX, Trash2, X } from "lucide-react";
+import { LoaderPinwheel } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -85,17 +85,17 @@ const ConnectionCard = ({ connection, type }) => {
   });
 
   return (
-    <div className="flex items-center justify-between p-6 bg-gradient-to-r from-purple-500 to-indigo-500 dark:from-gray-800 dark:to-gray-900 shadow-lg rounded-2xl mt-10 space-x-6 transition-colors duration-300">
-      <section className="flex items-center space-x-4 bg-white/80 dark:bg-white/10 backdrop-blur-md rounded-xl p-4 shadow-md">
+    <div className=" w-full flex flex-col lg:flex-row items-center justify-between p-3 lg:p-6 bg-gradient-to-r from-purple-500 to-indigo-500 dark:from-gray-800 dark:to-gray-900 shadow-lg rounded-2xl mt-10  lg:space-x-6 transition-colors duration-300">
+      <section className=" w-full  flex items-center space-x-1 lg:space-x-4 bg-white   rounded-xl p-4 shadow-md">
         {" "}
-        <Avatar className="w-16 h-16 rounded-full border-4 border-gray-300 dark:border-indigo-700 shadow-lg text-3xl font-bold">
+        <Avatar className="w-16 h-16 rounded-full border-4 border-gray-300 dark:border-indigo-700 shadow-lg  text-2xl font-semibold lg:text-3xl lg:font-bold">
           <AvatarImage src={avatar} />
           <AvatarFallback>{fullname[0]}</AvatarFallback>
         </Avatar>{" "}
         <div>
           <Link to={`/profile/${nextUserId}`}>
             {" "}
-            <p className="text-2xl font-semibold text-gray-900 dark:text-white">
+            <p className=" text-xl lg:text-2xl font-semibold text-gray-900 dark:text-white">
               {fullname}
             </p>
             <p className="text-md text-gray-700 dark:text-indigo-200">

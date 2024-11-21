@@ -111,7 +111,7 @@ const JobCard = ({ job }) => {
   const jobId = _id;
 
   return (
-    <main className="container mx-auto p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg max-w-3xl">
+    <main className="container mx-auto my-3 px-1 py-2 lg:p-6 bg-gray-100 dark:bg-gray-800 shadow-lg rounded-lg max-w-3xl">
       <div className="space-y-6">
         <section className="flex items-center relative space-x-4">
           <Avatar className="w-14 h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
@@ -121,7 +121,7 @@ const JobCard = ({ job }) => {
           <div>
             <Link to={`/company/${company?._id}`}>
               {" "}
-              <p className="text-2xl font-bold hover:text-blue-600 text-gray-800 dark:text-white">
+              <p className=" text-xl lg:text-2xl font-bold hover:text-blue-600 text-gray-800 dark:text-white">
                 {companyName}
               </p>{" "}
             </Link>
@@ -146,7 +146,7 @@ const JobCard = ({ job }) => {
           )}
         </section>
         <section className="flex flex-col items-center">
-          <p className="text-xl font-semibold text-gray-800 dark:text-white">
+          <p className=" text-lg lg:text-xl font-semibold text-gray-800 dark:text-white">
             {title}
           </p>
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400">

@@ -116,10 +116,10 @@ const PostCard = ({ post }) => {
   };
 
   return (
-    <main className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6 mb-6 border border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out hover:shadow-xl">
+    <main className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-1 lg:p-6 mb-6 border border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out hover:shadow-xl">
       <div className="flex justify-between">
-        <section className="flex items-center mb-4">
-          <Avatar className="w-14 h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
+        <section className="flex items-center pl-1 mb-4">
+          <Avatar className="lg:w-14 lg:h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
             <AvatarImage src={author?.avatar} />
             <AvatarFallback>{author?.fullname[0]}</AvatarFallback>
           </Avatar>
@@ -138,17 +138,17 @@ const PostCard = ({ post }) => {
           </Link>
         </section>
         {isOwner && (
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col gap-2 items-end">
             <button
               onClick={() => setIsEditing(true)}
-              className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className=" flex justify-end items-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
-              <Edit className="w-5 h-5 text-gray-800 dark:text-gray-200" />
+              <Edit className="w-full  text-gray-800 dark:text-gray-200" />
             </button>
 
             <Trash
               onClick={() => PostDeleteMutation.mutate()}
-              className="w-5 h-5 text-gray-800 dark:text-gray-200"
+              className=" text-gray-800 dark:text-gray-200"
             />
           </div>
         )}
@@ -170,7 +170,7 @@ const PostCard = ({ post }) => {
             </div>
           </form>
         ) : (
-          <p className="text-gray-700 dark:text-gray-300 text-lg px-6">
+          <p className="text-gray-700 dark:text-gray-300 font-sans lg:text-lg px-1 lg:px-6">
             {content}
           </p>
         )}
@@ -180,7 +180,7 @@ const PostCard = ({ post }) => {
         <div className="flex items-center space-x-3">
           <Button
             onClick={() => PostLikeMutation.mutate(_id)}
-            className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="flex items-center justify-center w-7 h-7 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <Heart
               className={`w-7 h-7 ${

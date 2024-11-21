@@ -182,7 +182,7 @@ const CompanyProfile = () => {
   // console.log("followers", followers);
 
   return (
-    <main className="mt-6 p-6 max-w-5xl mx-auto bg-white shadow-lg rounded-lg">
+    <main className="my-6 p-1 md:p-6 max-w-5xl mx-auto bg-white shadow-lg rounded-lg">
       <section className="flex flex-col  items-center  relative ">
         <div className="">
           <Avatar className="w-14  h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
@@ -191,7 +191,7 @@ const CompanyProfile = () => {
           </Avatar>
         </div>
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+          <h1 className="text-xl md:text-3xl font-bold text-gray-800">
             {companyName}
           </h1>
           {isEditing ? (
@@ -327,7 +327,7 @@ const CompanyProfile = () => {
         </div>
       )}
       <section className="mt-8">
-        <Tabs defaultValue="followers" className="w-[400px]">
+        <Tabs defaultValue="followers" className=" w-full ">
           <TabsList>
             <TabsTrigger value="followers">Followers</TabsTrigger>
             <TabsTrigger value="jobs">Jobs</TabsTrigger>
@@ -345,7 +345,7 @@ const CompanyProfile = () => {
               followers?.data?.map((follower) => (
                 <div
                   key={follower?._id}
-                  className="flex flex-col items-center bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 ease-in-out max-w-xs text-center"
+                  className="flex flex-col items-center bg-white my-2 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 ease-in-out max-w-xs text-center"
                 >
                   <Avatar className="w-16 h-16 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md mb-4">
                     <AvatarImage src={follower?.Follower?.avatar?.url} />

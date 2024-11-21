@@ -25,16 +25,7 @@ const Conversation = () => {
     socket.emit("join", { userId: loggedInUserId });
 
     socket.on("receiveMessage", (message) => {
-      queryClient.setQueryData(["conversation", receiverId], (oldData) => {
-        if (!oldData) return oldData;
-        return {
-          ...oldData,
-          data: {
-            ...oldData.data,
-            messages: [...oldData.data.messages, message],
-          },
-        };
-      });
+      queryClient.invalidateQueries(["conversation", receiverId]);
     });
 
     return () => {

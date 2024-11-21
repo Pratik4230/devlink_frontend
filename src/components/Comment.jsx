@@ -86,10 +86,10 @@ const Comment = ({ comment, postId }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6 mb-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+    <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-1 lg:p-6  border border-gray-200 dark:border-gray-700 transition-colors duration-300 mb-4 lg:mb-6 ">
       <div className="flex justify-between">
-        <section className="flex items-center mb-4">
-          <Avatar className="w-14 h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
+        <section className="flex items-center pl-0.5 mb-4">
+          <Avatar className="lg:w-14 lg:h-14  rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
             <AvatarImage src={avatar} />
             <AvatarFallback>{fullname[0]}</AvatarFallback>
           </Avatar>
@@ -104,17 +104,17 @@ const Comment = ({ comment, postId }) => {
         </section>
 
         {isOwner && (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-end flex-col gap-2">
             <button
               onClick={() => setIsEditing(!isEditing)}
-              className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className=" flex justify-end items-center  w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               {" "}
-              <Edit className="w-5 h-5 text-gray-800 dark:text-gray-200" />
+              <Edit className=" text-gray-800 dark:text-gray-200" />
             </button>
             <Trash
               onClick={() => deleteCommentMutation.mutate()}
-              className="w-5 h-5 text-gray-800 cursor-pointer dark:text-gray-200"
+              className=" text-gray-800 cursor-pointer dark:text-gray-200"
             />
           </div>
         )}

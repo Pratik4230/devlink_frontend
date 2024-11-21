@@ -112,13 +112,6 @@ const Navbar = () => {
                 <MessageSquare className="inline-block w-5 h-5 mr-1" />
                 Messaging
               </Link>
-              <Link
-                to="/notifications"
-                className="text-gray-700 hover:text-blue-600"
-              >
-                <Bell className="inline-block w-5 h-5 mr-1" />
-                Notifications
-              </Link>{" "}
             </>
           )}
 

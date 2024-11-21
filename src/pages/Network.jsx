@@ -131,32 +131,32 @@ const Network = () => {
   // console.log("searchUsers", searchUsers?.data);
 
   return (
-    <div className="mt-10 max-w-2xl mx-auto p-6 bg-white  rounded-xl shadow-lg">
+    <div className="my-10 max-w-2xl mx-auto p-2 md:p-6 bg-white  rounded-xl shadow-lg">
       <Tabs defaultValue="Explore" className="w-full">
-        <TabsList className="flex justify-around mb-6 bg-gray-200 rounded-lg p-2">
+        <TabsList className="flex flex-wrap items-center justify-around mb-6 bg-gray-100 rounded-lg p-2">
           <TabsTrigger
             value="RequestSent"
-            className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 transition-colors hover:bg-blue-100 focus:bg-blue-200"
+            className="px-2 lg:px-4 py-2 flex  rounded-lg text-sm font-semibold text-gray-700 transition-colors hover:bg-blue-100 focus:bg-blue-200"
           >
-            Request Sent
+            Sent
           </TabsTrigger>
           <TabsTrigger
             value="Explore"
-            className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 transition-colors hover:bg-blue-100 focus:bg-blue-200"
+            className="px-2 lg:px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 transition-colors hover:bg-blue-100 focus:bg-blue-200"
           >
             Explore
           </TabsTrigger>
           <TabsTrigger
             value="Connections"
-            className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 transition-colors hover:bg-blue-100 focus:bg-blue-200"
+            className="px-2 lg:px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 transition-colors hover:bg-blue-100 focus:bg-blue-200"
           >
             Connections
           </TabsTrigger>
           <TabsTrigger
             value="Request Recieved"
-            className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 transition-colors hover:bg-blue-100 focus:bg-blue-200"
+            className="px-2 lg:px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 transition-colors hover:bg-blue-100 focus:bg-blue-200"
           >
-            Request Received
+            Received
           </TabsTrigger>
         </TabsList>
 

@@ -36,7 +36,7 @@ const UserCard = ({ user, isSearch }) => {
   });
 
   return (
-    <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300 flex flex-col items-center  space-x-4">
+    <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg py-3 lg:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300 flex flex-col items-center  ">
       <section>
         <Avatar className="w-16 h-16 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
           <AvatarImage src={avatar} />

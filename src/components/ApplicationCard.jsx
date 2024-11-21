@@ -10,7 +10,7 @@ const ApplicationCard = ({ application }) => {
   const { fullname, headline, email, avatar } = applicant;
 
   return (
-    <div className="flex flex-col  items-center bg-white shadow-lg rounded-lg overflow-hidden p-6 lg:p-8 gap-5 max-w-4xl  border-b-2   border-b-black mb-5 ">
+    <div className="flex flex-col  items-center bg-white shadow-lg rounded-lg overflow-hidden  md:p-6 lg:p-8 gap-5 max-w-4xl  border-b-2   border-b-black mb-5 ">
       <section className="flex flex-col items-center text-center lg:items-start lg:text-left lg:w-1/3 space-y-4">
         <Avatar className="w-24 h-24 lg:w-32 lg:h-32">
           <AvatarImage

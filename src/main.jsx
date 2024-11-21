@@ -10,12 +10,12 @@ import Store from "./store/Store.js";
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Provider store={Store}>
-      <QueryClientProvider client={queryClient}>
-        <App />
-        <Toaster />
-      </QueryClientProvider>
-    </Provider>
-  </StrictMode>
+  // <StrictMode>
+  <Provider store={Store}>
+    <QueryClientProvider client={queryClient}>
+      <App />
+      <Toaster />
+    </QueryClientProvider>
+  </Provider>
+  //</StrictMode>
 );
