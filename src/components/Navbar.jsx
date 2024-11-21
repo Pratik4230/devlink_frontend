@@ -55,10 +55,10 @@ const Navbar = () => {
 
   const Logout = useMutation({
     mutationFn: async () => {
-      const response = await axiosInstance.post(
-        user ? "/user/logout" : "/company/logout"
+      return await axiosInstance.post(
+        user ? "/user/logout" : "/company/logout",
+        {}
       );
-      return response.data;
     },
     onSuccess: (data) => {
       // console.log(data);
@@ -73,18 +73,12 @@ const Navbar = () => {
       navigate("/", { replace: true });
     },
     onError: (error) => {
-      console.log(error);
+      console.log("logout error", error);
     },
   });
 
   const handleLogout = () => {
-    dispatch(removeUser());
-    dispatch(removeCompany());
-    queryClient.invalidateQueries({ queryKey: ["authUser"] });
-    queryClient.invalidateQueries({ queryKey: ["authCompany"] });
     Logout.mutate();
-
-    navigate("/", { replace: true });
   };
 
   return (
