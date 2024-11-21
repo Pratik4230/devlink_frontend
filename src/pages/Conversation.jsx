@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { axiosInstance } from "../utils/axiosInstance";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { MoveLeft, Trash } from "lucide-react";
+import { io as clientIo } from "socket.io-client";
 
 const Conversation = () => {
   const [newMessage, setNewMessage] = useState("");
@@ -17,6 +18,29 @@ const Conversation = () => {
   //   console.log("receiverId", receiverId);
 
   const loggedInUserId = useSelector((state) => state?.user?.user?._id);
+
+  const socket = useMemo(() => clientIo("http://localhost:3000"), []);
+
+  useEffect(() => {
+    socket.emit("join", { userId: loggedInUserId });
+
+    socket.on("receiveMessage", (message) => {
+      queryClient.setQueryData(["conversation", receiverId], (oldData) => {
+        if (!oldData) return oldData;
+        return {
+          ...oldData,
+          data: {
+            ...oldData.data,
+            messages: [...oldData.data.messages, message],
+          },
+        };
+      });
+    });
+
+    return () => {
+      socket.off("receiveMessage");
+    };
+  }, [receiverId, queryClient, socket]);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["conversation", receiverId],
@@ -39,6 +63,16 @@ const Conversation = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["conversation", receiverId]);
+      socket.emit("sendMessage", {
+        senderId: loggedInUserId,
+        receiverId,
+        content: newMessage,
+      });
+
+      setNewMessage("");
+    },
+    onError: (error) => {
+      setNewMessage("");
     },
   });
 
@@ -47,9 +81,10 @@ const Conversation = () => {
       const response = await axiosInstance.delete(
         `/message/delete/${messageId}`
       );
+
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries(["conversation", receiverId]);
     },
   });
@@ -57,12 +92,16 @@ const Conversation = () => {
   const handleSendMessage = () => {
     if (!newMessage.trim()) return;
     sendMessageMutation.mutate({ receiverId, content: newMessage });
-    setNewMessage("");
   };
 
   const handleDeleteMessage = (messageId) => {
     deleteMessageMutation.mutate(messageId);
   };
+
+  useEffect(() => {
+    if (data && data.data) {
+    }
+  }, [data]);
 
   if (isLoading) {
     return <p>Loading conversation...</p>;
@@ -88,7 +127,7 @@ const Conversation = () => {
           </div>
 
           <div className="bg-gray-100 p-4 rounded-lg shadow-md border-t">
-            <div className="flex items-center space-x-4">
+            <div className="md:flex items-center space-x-4">
               <Textarea
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
@@ -100,7 +139,7 @@ const Conversation = () => {
                   handleSendMessage(newMessage);
                   setNewMessage("");
                 }}
-                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none transition-all"
+                className="px-6 py-3 mt-2 md:mt-0 flex justify-self-end bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none transition-all"
               >
                 Send
               </Button>
@@ -131,25 +170,25 @@ const Conversation = () => {
           <div className="flex-1 p-4 overflow-y-auto bg-gray-100">
             {messages.map((message) => (
               <div
-                key={message._id}
+                key={message?._id}
                 className={`flex mb-4 ${
-                  message.sender._id === loggedInUserId
+                  message?.sender?._id === loggedInUserId
                     ? "justify-end"
                     : "justify-start"
                 }`}
               >
                 <div
-                  className={`max-w-xs px-4 py-2 rounded-lg shadow ${
-                    message.sender._id === loggedInUserId
+                  className={`max-w-xs w-8/12 md:w-5/12  px-4 py-2 rounded-lg shadow ${
+                    message?.sender?._id === loggedInUserId
                       ? "bg-blue-500 text-white"
                       : "bg-white text-gray-800"
                   }`}
                 >
-                  <p className="font-semibold">{message.sender.fullname}</p>
-                  <p>{message.content}</p>
-                  {message.sender._id === loggedInUserId && (
+                  <p className="font-semibold">{message?.sender?.fullname}</p>
+                  <p>{message?.content}</p>
+                  {message?.sender?._id === loggedInUserId && (
                     <button
-                      onClick={() => handleDeleteMessage(message._id)}
+                      onClick={() => handleDeleteMessage(message?._id)}
                       className="mt-1 flex justify-self-end  p-1 rounded-md bg-slate-100  text-red-600 hover:underline"
                     >
                       <Trash size={20} />
@@ -171,7 +210,6 @@ const Conversation = () => {
               <Button
                 onClick={() => {
                   handleSendMessage(newMessage);
-                  setNewMessage("");
                 }}
                 className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
               >
