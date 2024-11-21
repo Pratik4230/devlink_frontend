@@ -62,11 +62,14 @@ const Navbar = () => {
     },
     onSuccess: (data) => {
       // console.log(data);
+
       toast({ title: data.message || "Logout successful" });
+
       dispatch(removeUser());
       dispatch(removeCompany());
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
       queryClient.invalidateQueries({ queryKey: ["authCompany"] });
+
       navigate("/", { replace: true });
     },
     onError: (error) => {
@@ -75,7 +78,13 @@ const Navbar = () => {
   });
 
   const handleLogout = () => {
+    dispatch(removeUser());
+    dispatch(removeCompany());
+    queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    queryClient.invalidateQueries({ queryKey: ["authCompany"] });
     Logout.mutate();
+
+    navigate("/", { replace: true });
   };
 
   return (
