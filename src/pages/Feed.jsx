@@ -99,7 +99,7 @@ const feed = () => {
   useEffect(() => {
     let timer = setTimeout(() => {
       searchUsers.mutate(query);
-    }, 500);
+    }, 220);
 
     return () => clearTimeout(timer);
   }, [query]);
