@@ -90,25 +90,22 @@ const feed = () => {
       );
       return response.data;
     },
-    onSuccess: (data) => {
-      // console.log("sucees", data);
-      // toast({
-      //   description: data.message || " users fetched successfully",
-      // });
-    },
+
     onError: (error) => {
       console.log("error", error);
-      toast({
-        variant: "destructive",
-        description: error?.response?.data?.message,
-      });
     },
   });
 
-  const handleSearch = () => {
-    // e.preventDefault();
-    searchUsers.mutate(query);
-  };
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      searchUsers.mutate(query);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+  // e.preventDefault();
+
+  // };
 
   const handleAddPost = (e) => {
     e.preventDefault();
@@ -140,15 +137,14 @@ const feed = () => {
       {user && <Highlights className="mb-5" />}
 
       <section className=" max-w-2xl px-5 my-2   rounded-lg  w-full">
-        <div className=" flex ">
+        <div className=" flex items-center justify-center  p-2 bg-gray-50 rounded-lg shadow-md">
           <Input
-            placeholder="Search"
+            placeholder="Search users by name, headline and skills "
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className=" rounded-md  bg-gray-900 text-white  "
+            className=" w-full max-w-md rounded-md border-2 border-gray-300 px-4 py-2 text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-300 focus:outline-none "
           />
-          <Button onClick={() => handleSearch()}> Search </Button>
         </div>
         <section>
           {searchUsers &&
