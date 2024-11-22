@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import React, { useEffect, useState } from "react";
+import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 import { axiosInstance } from "../utils/axiosInstance";
 import { useToast } from "@/hooks/use-toast";
 import PostCatd from "../components/PostCatd";
@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 import { LoaderPinwheel } from "lucide-react";
 import Highlights from "../components/Highlights";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
 import UserCard from "../components/UserCard";
 
 const feed = () => {
@@ -23,11 +22,20 @@ const feed = () => {
     data: feed = [],
     isLoading: feedLoading,
     isError: feedError,
-  } = useQuery({
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     queryKey: ["feed"],
-    queryFn: async () => {
-      const response = await axiosInstance.get("/user/feed");
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await axiosInstance.get(
+        `/user/feed?page=${pageParam}&limit=10`
+      );
       return response.data;
+    },
+    getNextPageParam: (lastPage, allPages) => {
+      const { page, totalPages } = lastPage;
+      return page < totalPages ? page + 1 : undefined;
     },
     onSuccess: (data) => {
       // toast({ description: data.message || "feed fetched successfully" });
@@ -36,6 +44,22 @@ const feed = () => {
       console.log("error", error);
     },
   });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 50 >=
+        document.documentElement.scrollHeight
+      ) {
+        if (hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const addPostMutation = useMutation({
     mutationFn: async (newPost) => {
@@ -168,12 +192,22 @@ const feed = () => {
           <p className="text-center text-gray-500 py-10">No feed available</p>
         ) : (
           <div className="space-y-6">
-            {feed?.data?.map((post) => (
-              <PostCatd key={post._id} post={post} />
-            ))}
+            {feed?.pages?.map((p) =>
+              p?.data?.map((post) => <PostCatd key={post._id} post={post} />)
+            )}
           </div>
         )}
       </div>
+
+      <p className="flex justify-center items-center">
+        {" "}
+        {isFetchingNextPage && (
+          <LoaderPinwheel
+            className="animate-spin flex justify-center items-center text-blue-500"
+            size={33}
+          />
+        )}{" "}
+      </p>
     </main>
   );
 };
