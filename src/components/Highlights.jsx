@@ -34,6 +34,7 @@ const Highlights = () => {
       const response = await axiosInstance.get("/highlight/get");
       return response.data;
     },
+    refetchInterval: 50000,
     onError: (error) => {
       console.error("Error fetching highlights:", error);
     },

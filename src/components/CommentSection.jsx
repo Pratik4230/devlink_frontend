@@ -24,6 +24,7 @@ const CommentSection = ({ postId }) => {
       //   description: data?.messsage || "Comments fetched successfully",
       // });
     },
+    refetchInterval: 50000,
     onError: (error) => {
       toast({
         variant: "destructive",
