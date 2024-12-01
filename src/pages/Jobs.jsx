@@ -42,16 +42,21 @@ const Jobs = () => {
   // console.log("jobs", jobs);
 
   return (
-    <main className="my-10 px-1  md:px-6 lg:px-8 max-w-4xl mx-auto">
-      <div>
+    <main className="my-10 px-4 md:px-6 lg:px-8 max-w-4xl mx-auto">
+      <div className="bg-white rounded-lg shadow-lg p-6">
         {jobs?.data?.length === 0 ? (
           <p className="text-center text-gray-500 dark:text-gray-400 mt-10 text-lg font-medium">
             No jobs available at the moment.
           </p>
         ) : (
-          <div className="grid gap-6 lg:grid-cols-2 ">
+          <div className="grid gap-6 lg:grid-cols-2">
             {jobs?.data?.map((job) => (
-              <JobCard key={job?._id} job={job} />
+              <div
+                key={job?._id}
+                className="transition-transform transform hover:scale-105"
+              >
+                <JobCard job={job} />
+              </div>
             ))}
           </div>
         )}

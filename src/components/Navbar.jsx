@@ -83,36 +83,45 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`bg-white border-b border-gray-200 fixed top-0 w-full z-50 flex justify-center transition-transform duration-300 ${
-        isVisible ? "transform translate-y-0" : "transform -translate-y-full"
+      className={`bg-white shadow-md fixed top-0 w-full z-50 flex justify-center transition-transform ease-in-out duration-300 ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="max-w-5xl w-full flex justify-between items-center py-3 px-6">
-        <Link to="/" className="text-lg font-semibold text-blue-600">
+      <div className="container mx-auto px-4 flex justify-between items-center py-4">
+        <Link to="/" className="text-xl font-bold text-indigo-600">
           DevLink
         </Link>
 
-        <div className="hidden lg:flex space-x-6">
-          <Link to="/" className="text-gray-700 hover:text-blue-600">
-            <Home className="inline-block w-5 h-5 mr-1" />
+        <div className="hidden lg:flex space-x-8">
+          <Link
+            to="/"
+            className="text-gray-800 hover:text-indigo-600 transition-colors"
+          >
+            <Home className="inline-block w-5 h-5 mr-2" />
             Home
           </Link>
 
           {user && (
             <>
-              <Link to="/network" className="text-gray-700 hover:text-blue-600">
-                <Users className="inline-block w-5 h-5 mr-1" />
+              <Link
+                to="/network"
+                className="text-gray-800 hover:text-indigo-600 transition-colors"
+              >
+                <Users className="inline-block w-5 h-5 mr-2" />
                 My Network
               </Link>
-              <Link to="/jobs" className="text-gray-700 hover:text-blue-600">
-                <Briefcase className="inline-block w-5 h-5 mr-1" />
+              <Link
+                to="/jobs"
+                className="text-gray-800 hover:text-indigo-600 transition-colors"
+              >
+                <Briefcase className="inline-block w-5 h-5 mr-2" />
                 Jobs
               </Link>
               <Link
                 to="/messaging"
-                className="text-gray-700 hover:text-blue-600"
+                className="text-gray-800 hover:text-indigo-600 transition-colors"
               >
-                <MessageSquare className="inline-block w-5 h-5 mr-1" />
+                <MessageSquare className="inline-block w-5 h-5 mr-2" />
                 Messaging
               </Link>
             </>
@@ -122,9 +131,9 @@ const Navbar = () => {
             <>
               <Link
                 to="/companyjobs"
-                className="text-gray-700 hover:text-blue-600"
+                className="text-gray-800 hover:text-indigo-600 transition-colors"
               >
-                <BriefcaseBusiness className="inline-block w-5 h-5 mr-1" />
+                <BriefcaseBusiness className="inline-block w-5 h-5 mr-2" />
                 Jobs
               </Link>
             </>
@@ -143,13 +152,13 @@ const Navbar = () => {
           <PopoverContent>
             <Link
               to={user ? `/profile/${userId}` : `/company/${companyId}`}
-              className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100"
+              className="block py-2 px-4 text-sm text-gray-800 hover:bg-gray-100"
             >
               {user ? "Profile" : "Company Profile"}
             </Link>
 
             <p
-              className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100"
+              className="block py-2 px-4 text-sm text-gray-800 hover:bg-gray-100"
               onClick={() => handleLogout()}
             >
               Logout

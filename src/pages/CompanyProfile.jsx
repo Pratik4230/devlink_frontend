@@ -182,16 +182,18 @@ const CompanyProfile = () => {
   // console.log("followers", followers);
 
   return (
-    <main className="my-6 p-1 md:p-6 max-w-5xl mx-auto bg-white shadow-lg rounded-lg">
-      <section className="flex flex-col  items-center  relative ">
-        <div className="">
-          <Avatar className="w-14  h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
+    <main className="my-6 p-4 md:p-8 max-w-5xl mx-auto bg-gradient-to-r from-white to-gray-100 shadow-lg rounded-lg border border-gray-300">
+      <section className="flex flex-col items-center relative">
+        <div>
+          <Avatar className="w-16 h-16 rounded-full border-4 border-indigo-500 shadow-lg">
             <AvatarImage src={logo} />
-            <AvatarFallback>{companyName?.[0]}</AvatarFallback>
+            <AvatarFallback className="bg-indigo-200 text-indigo-800 font-bold">
+              {companyName?.[0]}
+            </AvatarFallback>
           </Avatar>
         </div>
-        <div>
-          <h1 className="text-xl md:text-3xl font-bold text-gray-800">
+        <div className="text-center mt-4">
+          <h1 className="text-2xl md:text-4xl font-extrabold text-gray-800">
             {companyName}
           </h1>
           {isEditing ? (
@@ -200,17 +202,17 @@ const CompanyProfile = () => {
               name="bio"
               value={formData.bio}
               onChange={handleChange}
-              className="mt-2 block w-full border rounded-md p-2"
+              className="mt-2 block w-full border rounded-md p-2 border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
               placeholder="Enter bio"
             />
           ) : (
-            <p className="text-gray-500 mt-2">{bio}</p>
+            <p className="text-gray-600 mt-2">{bio}</p>
           )}
         </div>
         {user && (
           <p
             onClick={() => followMutation.mutate(_id)}
-            className="absolute top-2 right-2 border-2 border-orange-400 px-3 py-1 rounded-lg text-blue-600 font-medium text-base cursor-pointer transition duration-200 ease-in-out hover:bg-blue-600 hover:text-white hover:shadow-lg"
+            className="absolute top-2 right-2 border-2 border-orange-400 px-4 py-2 rounded-lg text-blue-600 font-medium text-base cursor-pointer transition duration-200 ease-in-out hover:bg-blue-600 hover:text-white hover:shadow-lg"
           >
             {isFollowing ? (
               <UserCheck className="w-5 h-5" />
@@ -222,7 +224,7 @@ const CompanyProfile = () => {
       </section>
 
       <section className="mt-8">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           About the Company
         </h2>
         {isEditing ? (
@@ -230,11 +232,11 @@ const CompanyProfile = () => {
             name="about"
             value={formData.about}
             onChange={handleChange}
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-2 border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
             placeholder="Enter about information"
           />
         ) : (
-          <p className="text-gray-600">{about || "No details available."}</p>
+          <p className="text-gray-700">{about || "No details available."}</p>
         )}
       </section>
 
@@ -243,7 +245,7 @@ const CompanyProfile = () => {
           <h2 className="text-lg font-semibold text-gray-800 mb-2">
             Company Details
           </h2>
-          <p className="font-medium">
+          <p className="font-medium text-gray-700">
             Company Size:
             {isEditing ? (
               <input
@@ -251,14 +253,14 @@ const CompanyProfile = () => {
                 name="companySize"
                 value={formData.companySize}
                 onChange={handleChange}
-                className="ml-2 border rounded-md p-1"
+                className="ml-2 border rounded-md p-1 border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 transition"
                 placeholder="Enter company size"
               />
             ) : (
               <span className="font-normal"> {companySize} </span>
             )}
           </p>
-          <p className="font-medium">
+          <p className="font-medium text-gray-700">
             Website:
             {isEditing ? (
               <input
@@ -266,7 +268,7 @@ const CompanyProfile = () => {
                 name="website"
                 value={formData.website}
                 onChange={handleChange}
-                className="ml-2 border rounded-md p-1"
+                className="ml-2 border rounded-md p-1 border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 transition"
                 placeholder="Enter website URL"
               />
             ) : (
@@ -285,13 +287,13 @@ const CompanyProfile = () => {
               name="locations"
               value={formData.locations}
               onChange={handleChange}
-              className="w-full border rounded-md p-2"
+              className="w-full border rounded-md p-2 border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 transition"
               placeholder="Enter locations separated by commas"
             />
           ) : locations?.length > 0 ? (
-            <p>{locations.join(", ")}</p>
+            <p className="text-gray-700">{locations.join(", ")}</p>
           ) : (
-            <p>No locations available</p>
+            <p className="text-gray-500">No locations available</p>
           )}
         </div>
       </section>
@@ -303,7 +305,7 @@ const CompanyProfile = () => {
               <button
                 onClick={handleSubmit}
                 disabled={updateMutation?.isLoading}
-                className={`bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 ${
+                className={`bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-200 ease-in-out ${
                   updateMutation?.isLoading && "opacity-50 cursor-not-allowed"
                 }`}
               >
@@ -311,7 +313,7 @@ const CompanyProfile = () => {
               </button>
               <button
                 onClick={() => setIsEditing(false)}
-                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition duration-200 ease-in-out"
               >
                 Cancel
               </button>
@@ -319,18 +321,29 @@ const CompanyProfile = () => {
           ) : (
             <button
               onClick={() => setIsEditing(true)}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200 ease-in-out"
             >
               Edit Details
             </button>
           )}
         </div>
       )}
+
       <section className="mt-8">
-        <Tabs defaultValue="followers" className=" w-full ">
-          <TabsList>
-            <TabsTrigger value="followers">Followers</TabsTrigger>
-            <TabsTrigger value="jobs">Jobs</TabsTrigger>
+        <Tabs defaultValue="followers" className="w-full">
+          <TabsList className="bg-blue-100 p-2 rounded-lg shadow-md">
+            <TabsTrigger
+              className="text-gray-800 hover:bg-blue-300 transition"
+              value="followers"
+            >
+              Followers
+            </TabsTrigger>
+            <TabsTrigger
+              className="text-gray-800 hover:bg-blue-300 transition"
+              value="jobs"
+            >
+              Jobs
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="followers">
@@ -345,20 +358,18 @@ const CompanyProfile = () => {
               followers?.data?.map((follower) => (
                 <div
                   key={follower?._id}
-                  className="flex flex-col items-center bg-white my-2 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 ease-in-out max-w-xs text-center"
+                  className="flex flex-col items-center bg-white my-2 rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow duration-300 ease-in-out max-w-xs text-center"
                 >
-                  <Avatar className="w-16 h-16 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md mb-4">
+                  <Avatar className="w-16 h-16 rounded-full border-4 border-indigo-300 shadow-md mb-4">
                     <AvatarImage src={follower?.Follower?.avatar?.url} />
                     <AvatarFallback className="bg-gray-200 text-gray-800 font-semibold">
                       {follower?.Follower?.fullname?.[0]}
                     </AvatarFallback>
                   </Avatar>
-
                   <Link to={`/profile/${follower?.Follower?._id}`}>
-                    {" "}
                     <p className="text-lg font-semibold hover:text-blue-600 text-gray-800">
                       {follower?.Follower?.fullname}
-                    </p>{" "}
+                    </p>
                   </Link>
                   <p className="text-sm text-gray-600">
                     {follower?.Follower?.headline}

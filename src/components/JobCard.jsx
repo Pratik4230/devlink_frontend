@@ -111,21 +111,22 @@ const JobCard = ({ job }) => {
   const jobId = _id;
 
   return (
-    <main className="container mx-auto my-3 px-1 py-2 lg:p-6 bg-gray-100 dark:bg-gray-800 shadow-lg rounded-lg max-w-3xl">
+    <main className="container mx-auto my-6 px-4 py-6 lg:px-8 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 shadow-lg rounded-lg max-w-3xl border border-gray-300 dark:border-gray-700">
       <div className="space-y-6">
         <section className="flex items-center relative space-x-4">
-          <Avatar className="w-14 h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
+          <Avatar className="w-16 h-16 rounded-full border-2 border-indigo-500 dark:border-teal-500 shadow-lg hover:shadow-2xl transition-shadow">
             <AvatarImage src={logo} />
-            <AvatarFallback>{companyName[0]}</AvatarFallback>
+            <AvatarFallback className="bg-indigo-500 text-white font-bold">
+              {companyName[0]}
+            </AvatarFallback>
           </Avatar>
           <div>
             <Link to={`/company/${company?._id}`}>
-              {" "}
-              <p className=" text-xl lg:text-2xl font-bold hover:text-blue-600 text-gray-800 dark:text-white">
+              <p className="text-2xl lg:text-3xl font-bold hover:text-indigo-600 dark:hover:text-teal-400 text-gray-800 dark:text-white transition-colors">
                 {companyName}
-              </p>{" "}
+              </p>
             </Link>
-            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+            <p className="text-sm font-light text-gray-600 dark:text-gray-400">
               {title}
             </p>
           </div>
@@ -134,85 +135,117 @@ const JobCard = ({ job }) => {
             <div className="absolute top-0 right-0 flex flex-col items-center gap-2">
               <Trash
                 onClick={() => deleteJobMutation.mutate(_id)}
-                className="cursor-pointer text-red-600"
+                className="cursor-pointer text-red-600 hover:text-red-800 transition-transform transform hover:scale-110"
               />
               <Button
                 onClick={() => statusMutation.mutate(_id)}
-                className="bg-white text-gray-950 hover:bg-gray-200"
+                className="bg-indigo-600 text-white hover:bg-indigo-700 transition rounded-md shadow hover:shadow-lg"
               >
                 {status === "active" ? <Eye /> : <EyeOff />}
               </Button>
             </div>
           )}
         </section>
+
         <section className="flex flex-col items-center">
-          <p className=" text-lg lg:text-xl font-semibold text-gray-800 dark:text-white">
+          <p className="text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white">
             {title}
           </p>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mt-1">
             {skills.join(", ")}
           </p>
         </section>
-        <section className="flex flex-col    text-gray-700 dark:text-gray-300">
+
+        <section className="text-gray-700 dark:text-gray-300 space-y-3">
           <div className="flex justify-between px-3">
-            <p className="font-semibold ">Loacation: {location}</p>
+            <p className="font-semibold">Location: {location}</p>
             <p className="ml-2 text-gray-500 dark:text-gray-400">
               {formatDistanceToNow(new Date(createdAt))} ago
             </p>
           </div>
 
           <p className="text-sm px-3 font-semibold">
-            Salary: <span className="font-medium">{minSalary}</span> -{" "}
-            <span className="font-medium">{maxSalary}</span>
+            Salary:{" "}
+            <span className="font-medium text-indigo-600 dark:text-teal-400">
+              {minSalary}
+            </span>{" "}
+            -{" "}
+            <span className="font-medium text-indigo-600 dark:text-teal-400">
+              {maxSalary}
+            </span>
           </p>
 
           <div className="flex px-3 items-center">
-            <p className="text-sm font-semibold">{type}</p>
-            <p className=" text-sm flex  font-semibold text-gray-500 dark:text-gray-400">
-              <Dot className="text-green-600 " size={25} strokeWidth={3} />
+            <p className="text-sm font-semibold text-green-700 dark:text-green-500">
+              {type}
+            </p>
+            <p className="text-sm flex font-semibold text-gray-500 dark:text-gray-400">
+              <Dot className="text-green-600" size={25} strokeWidth={3} />
               {status}
             </p>
           </div>
+
           {isOwner && (
             <Link to={`/applications/${jobId}`} className="mt-2">
-              <Button className=" flex w-full">View Applicants</Button>
+              <Button className="flex w-full bg-teal-600 hover:bg-teal-700 text-white transition rounded-md">
+                View Applicants
+              </Button>
             </Link>
           )}
         </section>
 
-        <section className="text-gray-700 dark:text-gray-300 space-y-2">
-          <p className="font-semibold text-lg">Job Description</p>
+        <section className="text-gray-700 dark:text-gray-300 space-y-3">
+          <p className="font-semibold text-lg text-indigo-700 dark:text-teal-500">
+            Job Description
+          </p>
           <p className="leading-relaxed text-sm">{description}</p>
           <p className="leading-relaxed text-sm mt-2">
-            {" "}
-            <span className="font-semibold text-base">Requirements:</span>{" "}
+            <span className="font-semibold text-base text-indigo-700 dark:text-teal-500">
+              Requirements:
+            </span>{" "}
             {requirements}
           </p>
+
           {!LoggedInCompany && (
             <>
-              {" "}
-              <Button onClick={handleApply} className="w-full">
+              <Button
+                onClick={handleApply}
+                className="w-full mt-2 bg-yellow-500 hover:bg-yellow-600 text-gray-800 dark:text-gray-900 transition rounded-md"
+              >
                 {uploadResumeMutation.isLoading ? (
                   <LoaderPinwheel className="animate-spin text-yellow-100" />
                 ) : (
                   "Apply Now"
                 )}
               </Button>
-              <input type="file" onChange={handleFileChange} />
+              <input
+                type="file"
+                onChange={handleFileChange}
+                className="mt-2 block w-full text-sm text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-md focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+              />
             </>
           )}
         </section>
 
         <section className="border-t border-gray-200 dark:border-gray-700 pt-4 text-gray-700 dark:text-gray-300">
-          <p className="font-semibold text-lg">About {companyName}</p>
+          <p className="font-semibold text-lg text-indigo-700 dark:text-teal-500">
+            About {companyName}
+          </p>
           <p className="text-sm leading-relaxed">{bio}</p>
           <div className="mt-2 text-sm">
-            <p>Company Size: {companySize}</p>
+            <p>
+              Company Size:{" "}
+              <span className="font-medium text-indigo-600 dark:text-teal-400">
+                {companySize}
+              </span>
+            </p>
             <p>
               Website:{" "}
               <a
                 href={website}
-                className="text-indigo-600 dark:text-indigo-400 underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-700 dark:hover:text-teal-300"
               >
                 {website}
               </a>

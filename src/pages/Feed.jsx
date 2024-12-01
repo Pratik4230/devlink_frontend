@@ -133,50 +133,53 @@ const feed = () => {
   }
 
   return (
-    <main className="flex flex-col  items-center py-2 bg-gradient-to-b from-gray-100 to-gray-50 mt-5 min-h-screen  ">
+    <main className="flex flex-col items-center py-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 mt-5 min-h-screen">
       {user && <Highlights className="mb-5" />}
 
-      <section className=" max-w-2xl px-5 my-2   rounded-lg  w-full">
-        <div className=" flex items-center justify-center  p-2 bg-gray-50 rounded-lg shadow-md">
+      <section className="max-w-2xl px-6 my-4 w-full">
+        <div className="flex items-center justify-center p-4 bg-white rounded-lg shadow-lg border border-gray-200">
           <Input
-            placeholder="Search users by name, headline and skills "
+            placeholder="Search users by name, headline, and skills"
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className=" w-full max-w-md rounded-md border-2 border-gray-300 px-4 py-2 text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-300 focus:outline-none "
+            className="w-full max-w-md rounded-lg border-2 border-gray-300 px-4 py-2 text-gray-700 focus:border-purple-500 focus:ring focus:ring-purple-300 focus:outline-none"
           />
         </div>
-        <section>
+        <section className="mt-6 space-y-4">
           {searchUsers &&
             query &&
             searchUsers.data &&
             searchUsers.data?.data?.length > 0 &&
             searchUsers?.data?.data?.map((user) => (
-              <UserCard key={user?._id} user={user} isSearch={"searching"} />
+              <UserCard
+                key={user?._id}
+                user={user}
+                isSearch={"searching"}
+                className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-lg p-4 shadow-md hover:shadow-lg"
+              />
             ))}
         </section>
       </section>
 
       <div className="max-w-2xl w-full">
         {user && (
-          <section className="w-full max-w-2xl mb-6">
+          <section className="w-full mb-8">
             <form
               onSubmit={handleAddPost}
-              className="flex flex-col gap-4 p-4 bg-white shadow-md rounded-lg"
+              className="flex flex-col gap-4 p-6 bg-white shadow-lg rounded-lg border border-gray-200"
             >
-              <h2 className="text-xl font-semibold text-gray-800">
-                Add New Post
-              </h2>
+              <h2 className="text-xl font-bold text-gray-800">Add New Post</h2>
               <Textarea
                 placeholder="What's on your mind?"
                 value={newPostContent}
                 onChange={(e) => setNewPostContent(e.target.value)}
-                className="border border-gray-300 rounded-md"
+                className="border border-gray-300 rounded-lg p-3 shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-300"
               />
               <Button
                 type="submit"
                 disabled={addPostMutation.isPending}
-                className="mt-2"
+                className="w-full py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold shadow-md hover:shadow-lg hover:opacity-90 transition"
               >
                 {addPostMutation.isPending ? "Posting..." : "Post"}
               </Button>
@@ -189,20 +192,22 @@ const feed = () => {
         ) : (
           <div className="space-y-6">
             {feed?.pages?.map((p) =>
-              p?.data?.map((post) => <PostCatd key={post._id} post={post} />)
+              p?.data?.map((post) => (
+                <PostCatd
+                  key={post._id}
+                  post={post}
+                  className="bg-white rounded-lg shadow-md p-5 hover:shadow-lg border border-gray-200"
+                />
+              ))
             )}
           </div>
         )}
       </div>
 
-      <p className="flex justify-center items-center">
-        {" "}
+      <p className="flex justify-center items-center py-6">
         {isFetchingNextPage && (
-          <LoaderPinwheel
-            className="animate-spin flex justify-center items-center text-blue-500"
-            size={33}
-          />
-        )}{" "}
+          <LoaderPinwheel className="animate-spin text-purple-500" size={33} />
+        )}
       </p>
     </main>
   );

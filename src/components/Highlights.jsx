@@ -94,17 +94,19 @@ const Highlights = () => {
   }
 
   return (
-    <div className=" w-full bg-white rounded-lg shadow-lg p-4  max-w-2xl mb-5  relative ">
+    <div className="w-full bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 rounded-lg shadow-lg p-6 max-w-2xl mb-5 relative">
       <Button
         onClick={() => setShowCreateForm(!showCreateForm)}
-        className=" absolute right-1  opacity-80 hover:opacity-100  text-white"
+        className="absolute right-4 top-4 opacity-80 hover:opacity-100 text-white bg-purple-500 hover:bg-purple-700 transition-all duration-300 rounded-full"
       >
         {showCreateForm ? "Cancel" : <CirclePlus size={32} />}
       </Button>
 
       {showCreateForm ? (
-        <div className="p-4 bg-white rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold mb-4">Create a New Highlight</h2>
+        <div className="p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-semibold mb-4 text-purple-700">
+            Create a New Highlight
+          </h2>
           <input
             type="text"
             placeholder="Enter content"
@@ -112,7 +114,7 @@ const Highlights = () => {
             onChange={(e) =>
               setNewHighlight({ ...newHighlight, content: e.target.value })
             }
-            className="mt-2 p-2 w-full border rounded"
+            className="mt-2 p-3 w-full border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
           <input
             type="file"
@@ -120,23 +122,23 @@ const Highlights = () => {
             onChange={(e) =>
               setNewHighlight({ ...newHighlight, image: e.target.files[0] })
             }
-            className="mt-2 p-2 w-full"
+            className="mt-2 p-3 w-full bg-purple-100 rounded-lg border-2 border-dashed border-purple-400"
           />
-          <div className="mt-4 flex space-x-2">
+          <div className="mt-4 flex space-x-4">
             <Button
               onClick={handleCreateHighlight}
-              className="bg-blue-500 text-white"
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300"
               disabled={createHighlightMutation.isLoading}
             >
               {createHighlightMutation.isLoading ? (
-                <LoaderPinwheel className="animate-spin" />
+                <LoaderPinwheel className="animate-spin text-white" />
               ) : (
                 "Create"
               )}
             </Button>
             <Button
               onClick={() => setShowCreateForm(false)}
-              className="bg-gray-500 text-white"
+              className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-700 transition-all duration-300"
             >
               Cancel
             </Button>
@@ -145,11 +147,11 @@ const Highlights = () => {
       ) : (
         <>
           {!Highlights?.data || Highlights?.data?.length === 0 ? (
-            <p className="text-gray-500 text-center">
+            <p className="text-gray-600 text-center mt-4">
               No highlights yet. Create your first highlight now!
             </p>
           ) : (
-            <div className="flex  px-2 py-2   max-w-2xl space-x-4 overflow-x-auto scrollbar-hide ">
+            <div className="flex px-4 py-4 space-x-6 overflow-x-auto scrollbar-hide">
               {Highlights.data.map((highlight) => (
                 <Popover key={highlight.highlightId}>
                   <PopoverTrigger asChild>
@@ -157,33 +159,31 @@ const Highlights = () => {
                       <img
                         src={highlight.image}
                         alt="Highlight"
-                        className="w-16 h-16 ring-4 ring-orange-400 transition duration-300 ease-in-out transform  hover:ring-purple-300 hover:scale-105   rounded-full  object-cover"
+                        className="w-20 h-20 ring-4 ring-orange-400 transition-transform duration-300 ease-in-out transform hover:ring-purple-500 hover:scale-110 rounded-full object-cover"
                       />
                     </button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[300px] h-[450px] p-0 bg-black rounded-lg shadow-lg overflow-hidden flex flex-col">
-                    <div className="flex items-center space-x-2 p-4 bg-black bg-opacity-50">
-                      <Avatar className="w-14 h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
+                  <PopoverContent className="w-[300px] h-[450px] p-0 bg-gradient-to-t from-gray-800 to-black rounded-lg shadow-lg overflow-hidden flex flex-col">
+                    <div className="flex items-center space-x-4 p-4 bg-black bg-opacity-60">
+                      <Avatar className="w-14 h-14 rounded-full border-2 border-gray-300 shadow-lg">
                         <AvatarImage src={highlight.avatar} />
                         <AvatarFallback>{highlight.author[0]}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="text-white  font-semibold">
+                        <p className="text-white font-semibold">
                           <Link
                             to={`/profile/${highlight.authorId}`}
-                            className="hover:text-blue-500 hover:underline "
+                            className="hover:text-blue-400 hover:underline"
                           >
-                            {" "}
-                            {highlight.author}{" "}
+                            {highlight.author}
                           </Link>
                         </p>
-                        <p className="text-xs text-gray-300">
+                        <p className="text-sm text-gray-400">
                           {formatDistanceToNow(new Date(highlight.createdAt))}{" "}
                           ago
                         </p>
                       </div>
                     </div>
-
                     <div className="flex-grow flex items-center justify-center bg-black">
                       <img
                         src={highlight.image}
@@ -191,22 +191,20 @@ const Highlights = () => {
                         className="max-w-full max-h-full object-contain"
                       />
                     </div>
-
-                    <div className="p-4 bg-black bg-opacity-50">
+                    <div className="p-4 bg-black bg-opacity-60">
                       <p className="text-white text-sm mb-4">
                         {highlight.content}
                       </p>
-
                       {userId === highlight?.authorId && (
                         <Button
                           onClick={() =>
                             handleDeleteHighlight(highlight.highlightId)
                           }
-                          className="w-full bg-red-500 text-white"
+                          className="w-full bg-red-500 text-white rounded-lg shadow-md hover:bg-red-700 transition-all duration-300"
                           disabled={deleteHighlightMutation.isLoading}
                         >
                           {deleteHighlightMutation.isLoading ? (
-                            <LoaderPinwheel className="animate-spin" />
+                            <LoaderPinwheel className="animate-spin text-white" />
                           ) : (
                             "Delete Highlight"
                           )}

@@ -23,7 +23,7 @@ const Messaging = () => {
   //   console.log("connections", connections);
 
   return (
-    <main className="p-6 bg-gray-50 min-h-screen my-7 ">
+    <main className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 min-h-screen my-7">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">
           Conversations
@@ -33,12 +33,12 @@ const Messaging = () => {
           connections?.data?.map((connection) => (
             <section
               key={connection?.connectionId}
-              className="flex items-center justify-between p-4 mb-4 bg-white shadow-lg rounded-lg hover:shadow-xl transition-shadow"
+              className="flex items-center justify-between p-4 mb-4 bg-white shadow-lg rounded-lg hover:shadow-2xl transition-shadow border border-gray-200"
             >
               <div className="flex items-center space-x-4">
-                <Avatar className="w-14 h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
+                <Avatar className="w-14 h-14 rounded-full border-4 border-gradient-to-r from-indigo-400 to-blue-500 shadow-lg">
                   <AvatarImage src={connection?.avatar} />
-                  <AvatarFallback className="text-xl font-semibold">
+                  <AvatarFallback className="text-2xl font-semibold text-gray-700">
                     {connection?.fullname[0]}
                   </AvatarFallback>
                 </Avatar>
@@ -47,14 +47,18 @@ const Messaging = () => {
                   <p className="text-lg font-semibold text-gray-900">
                     {connection?.fullname}
                   </p>
-                  <p>{connection?.headline}</p>
-                  <p className="text-sm text-gray-500">{connection?.status}</p>
+                  <p className="text-sm text-gray-600">
+                    {connection?.headline}
+                  </p>
+                  <p className="text-sm text-gray-500 italic">
+                    {connection?.status}
+                  </p>
                 </div>
               </div>
 
               <Link
                 to={`/conversation/${connection?.nextUserId}`}
-                className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all"
+                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
               >
                 Message
               </Link>
@@ -70,7 +74,7 @@ const Messaging = () => {
               to="/network"
               className="text-blue-500 font-semibold hover:text-blue-600 transition-all ease-in-out duration-300"
             >
-              exploring and connect
+              exploring and connecting
             </Link>
             <span>
               {" "}

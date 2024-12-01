@@ -10,9 +10,9 @@ const ApplicationCard = ({ application }) => {
   const { fullname, headline, email, avatar } = applicant;
 
   return (
-    <div className="flex flex-col  items-center bg-white shadow-lg rounded-lg overflow-hidden  md:p-6 lg:p-8 gap-5 max-w-4xl  border-b-2   border-b-black mb-5 ">
+    <div className="flex flex-col items-center bg-white shadow-lg rounded-lg overflow-hidden md:p-6 lg:p-8 gap-5 max-w-4xl border-b-2 border-b-black mb-5 transition-transform transform hover:scale-105">
       <section className="flex flex-col items-center text-center lg:items-start lg:text-left lg:w-1/3 space-y-4">
-        <Avatar className="w-24 h-24 lg:w-32 lg:h-32">
+        <Avatar className="w-24 h-24 lg:w-32 lg:h-32 border-4 border-blue-500">
           <AvatarImage
             src={avatar?.url}
             alt="Avatar"
@@ -23,20 +23,17 @@ const ApplicationCard = ({ application }) => {
           </AvatarFallback>
         </Avatar>
         <div>
-          <p className="text-lg  font-semibold text-gray-800">
+          <p className="text-lg font-semibold text-gray-800">
             <Link
               to={`/profile/${applicant?._id}`}
-              className="hover:text-blue-600  hover:underline"
+              className="hover:text-blue-600 hover:underline"
             >
-              {" "}
-              {fullname}{" "}
+              {fullname}
             </Link>
           </p>
-
           <p className="text-sm text-gray-600">{headline}</p>
           <p className="flex gap-2 font-semibold text-gray-950">
-            {" "}
-            Contact:{" "}
+            Contact:
             <span className="font-medium underline text-blue-600">{email}</span>
           </p>
         </div>
@@ -44,12 +41,11 @@ const ApplicationCard = ({ application }) => {
 
       <div className="flex justify-center lg:w-1/3">
         <Link to={resume?.url} target="_blank">
-          {" "}
           <img
             src={resume?.url}
             alt="Resume"
-            className="w-full h-auto max-h-72 rounded-lg border shadow-md object-cover"
-          />{" "}
+            className="w-full h-auto max-h-72 rounded-lg border shadow-md object-cover hover:shadow-xl transition-shadow duration-300"
+          />
         </Link>
       </div>
 

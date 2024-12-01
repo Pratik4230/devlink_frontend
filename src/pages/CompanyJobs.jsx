@@ -73,21 +73,27 @@ const CompanyJobs = () => {
   };
 
   return (
-    <main className="mt-5 ">
+    <main className="mt-5 p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-lg shadow-lg">
       <section className="flex justify-end mb-4">
-        <Button onClick={() => setShowCreateJobForm(!showCreateJobForm)}>
+        <Button
+          onClick={() => setShowCreateJobForm(!showCreateJobForm)}
+          className="bg-teal-500 text-white font-semibold px-4 py-2 rounded hover:bg-teal-600 transition duration-300"
+        >
           Create Job
         </Button>
       </section>
       {showCreateJobForm && (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 bg-white p-6 rounded-lg shadow-md"
+        >
           <Input
             type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
             placeholder="Job Title"
-            className="w-full p-2 border rounded"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
             required
           />
           <Textarea
@@ -95,7 +101,7 @@ const CompanyJobs = () => {
             value={formData.description}
             onChange={handleChange}
             placeholder="Job Description"
-            className="w-full p-2 border rounded"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
             required
           />
           <Textarea
@@ -103,7 +109,7 @@ const CompanyJobs = () => {
             value={formData.requirements}
             onChange={handleChange}
             placeholder="Job Requirements"
-            className="w-full p-2 border rounded"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
             required
           />
           <Input
@@ -112,7 +118,7 @@ const CompanyJobs = () => {
             value={formData.skills}
             onChange={handleChange}
             placeholder="Skills (comma-separated)"
-            className="w-full p-2 border rounded"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
           />
           <Input
             type="text"
@@ -120,7 +126,7 @@ const CompanyJobs = () => {
             value={formData.minSalary}
             onChange={handleChange}
             placeholder="Minimum Salary"
-            className="w-full p-2 border rounded"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
           />
           <Input
             type="text"
@@ -128,7 +134,7 @@ const CompanyJobs = () => {
             value={formData.maxSalary}
             onChange={handleChange}
             placeholder="Maximum Salary"
-            className="w-full p-2 border rounded"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
           />
           <Input
             type="text"
@@ -136,23 +142,23 @@ const CompanyJobs = () => {
             value={formData.location}
             onChange={handleChange}
             placeholder="Location"
-            className="w-full p-2 border rounded"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
           />
           <select
             name="type"
             value={formData.type}
             onChange={handleChange}
-            className="w-fit mx-3 p-2 border rounded"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
           >
             <option value="full-time">Full-Time</option>
             <option value="part-time">Part-Time</option>
-            <option value="internship">internship</option>
-            <option value="remote">remote</option>
+            <option value="internship">Internship</option>
+            <option value="remote">Remote</option>
           </select>
 
           <Button
             type="submit"
-            className={`bg-blue-500 text-white px-4 py-2 rounded ${
+            className={`w-full bg-teal-500 text-white font-semibold px-4 py-2 rounded hover:bg-teal-600 transition duration-300 ${
               createJobMutation.isLoading && "opacity-50 cursor-not-allowed"
             }`}
             disabled={createJobMutation.isLoading}
@@ -160,14 +166,14 @@ const CompanyJobs = () => {
             {createJobMutation.isLoading ? (
               <LoaderPinwheel className="animate-spin" />
             ) : (
-              "Create new Job"
+              "Create New Job"
             )}
           </Button>
         </form>
       )}
 
-      <section className="flex  flex-col items-center">
-        <h2 className="text-2xl font-semibold">Jobs</h2>
+      <section className="flex flex-col items-center mt-8">
+        <h2 className="text-2xl font-semibold text-teal-700">Jobs</h2>
         <CompanyJobList companyId={companyId} />
       </section>
     </main>

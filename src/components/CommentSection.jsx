@@ -42,15 +42,21 @@ const CommentSection = ({ postId }) => {
   }
 
   return (
-    <div className="mt-4">
+    <div className="mt-6">
       {!comments?.data || comments?.data?.length === 0 ? (
-        <div className="text-center text-gray-500 dark:text-gray-400">
-          <p>No comments yet</p>
+        <div className="text-center text-gray-500 dark:text-gray-400 p-6">
+          <p className="text-lg font-medium">No comments yet</p>
+          <p className="text-sm mt-2">Be the first to share your thoughts!</p>
         </div>
       ) : (
-        <div>
+        <div className="space-y-4">
           {comments?.data?.map((comment) => (
-            <Comment key={comment._id} comment={comment} postId={postId} />
+            <div
+              key={comment._id}
+              className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300"
+            >
+              <Comment comment={comment} postId={postId} />
+            </div>
           ))}
         </div>
       )}

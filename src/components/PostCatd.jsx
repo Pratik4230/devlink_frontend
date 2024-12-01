@@ -116,118 +116,118 @@ const PostCard = ({ post }) => {
   };
 
   return (
-    <main className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-1 lg:p-6 mb-6 border border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out hover:shadow-xl">
-      <div className="flex justify-between">
-        <section className="flex items-center pl-1 mb-4">
-          <Avatar className="lg:w-14 lg:h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
+    <main className="bg-gradient-to-br from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 shadow-xl rounded-lg p-6 lg:p-8 mb-8 border border-gray-300 dark:border-gray-700 transition-all duration-300 ease-in-out hover:shadow-2xl">
+      <div className="flex justify-between items-center">
+        <section className="flex items-center gap-4">
+          <Avatar className="lg:w-16 lg:h-16 rounded-full border-4 border-indigo-400 dark:border-purple-600 shadow-lg">
             <AvatarImage src={author?.avatar} />
-            <AvatarFallback>{author?.fullname[0]}</AvatarFallback>
+            <AvatarFallback className="text-indigo-500 dark:text-purple-400 bg-indigo-100 dark:bg-gray-800">
+              {author?.fullname[0]}
+            </AvatarFallback>
           </Avatar>
           <Link
-            className="ml-4 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded-lg"
             to={`/profile/${author?._id}`}
+            className="hover:underline focus:outline-none focus:ring-2 focus:ring-purple-400 rounded-lg"
           >
             <div>
-              <p className="text-xl font-semibold text-gray-800 dark:text-white">
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
                 {author?.fullname}
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-indigo-600 dark:text-purple-400">
                 {author?.headline}
               </p>
             </div>
           </Link>
         </section>
         {isOwner && (
-          <div className="flex flex-col gap-2 items-end">
+          <div className="flex gap-3 items-center">
             <button
               onClick={() => setIsEditing(true)}
-              className=" flex justify-end items-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-10 h-10 rounded-full bg-indigo-500 text-white hover:bg-indigo-600 dark:bg-purple-600 dark:hover:bg-purple-700 shadow-lg transition"
             >
-              <Edit className="w-full  text-gray-800 dark:text-gray-200" />
+              <Edit className="w-5 h-5 mx-auto" />
             </button>
-
-            <Trash
+            <button
               onClick={() => PostDeleteMutation.mutate()}
-              className=" text-gray-800 dark:text-gray-200"
-            />
+              className="w-10 h-10 rounded-full bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 shadow-lg transition"
+            >
+              <Trash className="w-5 h-5 mx-auto" />
+            </button>
           </div>
         )}
       </div>
 
-      <section className="mb-6">
+      <section className="my-6">
         {isEditing ? (
           <form onSubmit={handleEditPost}>
             <Textarea
-              rows={10}
+              rows={8}
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
-              className="w-full px-4 py-2 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
+              className="w-full px-4 py-3 border border-indigo-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-purple-500 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
             />
-            <div className="flex justify-end space-x-2">
-              <Button type="submit" className="bg-blue-500 text-white">
+            <div className="flex justify-end mt-4">
+              <Button
+                type="submit"
+                className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-600 shadow-md"
+              >
                 Save
               </Button>
             </div>
           </form>
         ) : (
-          <p className="text-gray-700 dark:text-gray-300 font-sans lg:text-lg px-1 lg:px-6">
+          <p className="text-lg text-gray-700 dark:text-gray-300 font-sans leading-relaxed">
             {content}
           </p>
         )}
       </section>
 
-      <section className="flex justify-evenly items-center text-gray-500 dark:text-gray-400 text-sm border-t border-gray-200 dark:border-gray-600 pt-4">
-        <div className="flex items-center space-x-3">
+      <section className="flex justify-evenly items-center text-gray-600 dark:text-gray-400 text-sm border-t border-gray-300 dark:border-gray-600 pt-4">
+        <div className="flex items-center gap-3">
           <Button
             onClick={() => PostLikeMutation.mutate(_id)}
-            className="flex items-center justify-center w-7 h-7 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white hover:from-pink-600 hover:to-red-600 shadow-md"
           >
             <Heart
-              className={`w-7 h-7 ${
-                isLiked && "fill-red-500"
-              } text-blue-600 dark:text-blue-400`}
+              className={`w-5 h-5 ${isLiked && "fill-current"} text-white`}
             />
           </Button>
-          <p className="text-gray-800 dark:text-gray-100 font-medium">
+          <p className="font-medium text-gray-900 dark:text-gray-100">
             {likeCount} Likes
           </p>
         </div>
         {user && (
           <Button
-            className="flex bg-white hover:bg-white text-black items-center space-x-2 hover:text-blue-600 dark:hover:text-indigo-100 transition duration-300"
             onClick={() => setShowComments(!showComments)}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-lg hover:from-teal-600 hover:to-cyan-600 transition"
           >
-            <MessageSquareQuote className="w-5  h-5" />
-            <span className="hidden  sm:inline">Comments</span>
+            <MessageSquareQuote className="w-5 h-5" />
+            <span>Comments</span>
           </Button>
         )}
-
-        <p className="text-gray-500 dark:text-gray-400">
+        <p className="text-sm italic">
           {formatDistanceToNow(new Date(createdAt))} ago
         </p>
       </section>
 
-      <section className="w-full">
-        {showComments && (
-          <div className="mt-4">
-            <Textarea
-              rows={4}
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Add a comment..."
-              className="w-full px-4 py-2 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
-            />
-            <Button
-              onClick={handleAddComment}
-              className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-            >
-              Submit Comment
-            </Button>
-
-            <CommentSection postId={_id} />
-          </div>
-        )}
-      </section>
+      {showComments && (
+        <section className="mt-6 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-inner">
+          <Textarea
+            rows={3}
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            placeholder="Write your thoughts..."
+            className="w-full px-4 py-2 border border-blue-400 rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+          <Button
+            onClick={handleAddComment}
+            className="w-full mt-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-2 rounded-lg hover:from-green-600 hover:to-emerald-600 shadow-md"
+          >
+            Submit Comment
+          </Button>
+          <CommentSection postId={_id} className="mt-4" />
+        </section>
+      )}
     </main>
   );
 };

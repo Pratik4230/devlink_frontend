@@ -36,9 +36,9 @@ const UserCard = ({ user, isSearch }) => {
   });
 
   return (
-    <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg py-3 lg:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300 flex flex-col items-center  ">
+    <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg py-3 lg:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300 flex flex-col items-center transform hover:scale-105">
       <section>
-        <Avatar className="w-16 h-16 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
+        <Avatar className="w-16 h-16 rounded-full border-2 border-indigo-500 dark:border-indigo-400 shadow-lg transform hover:scale-110 transition duration-200 ease-in-out">
           <AvatarImage src={avatar} />
           <AvatarFallback className="text-xl font-semibold text-gray-800 dark:text-gray-200">
             {fullname[0]}
@@ -46,17 +46,18 @@ const UserCard = ({ user, isSearch }) => {
         </Avatar>
       </section>
 
-      <div className="flex my-2 flex-col items-center  ">
+      <div className="flex my-2 flex-col items-center">
         <section className="flex mb-2 flex-col items-center space-y-1">
           <Link to={`/profile/${_id}`}>
-            {" "}
-            <p className="text-lg  font-semibold text-gray-800 hover:text-blue-600 dark:text-white">
+            <p className="text-lg font-semibold text-gray-800 hover:text-blue-600 dark:text-white transition duration-200">
               {fullname}
-            </p>{" "}
+            </p>
           </Link>
-          <p className=" text-gray-950 dark:text-gray-400">{headline}</p>
-          <p className="text-sm"> {skills.join(", ")} </p>
-          <p className="text-sm text-gray-600 dark:text-gray-300 italic">
+          <p className="text-gray-950 dark:text-gray-400">{headline}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+            {skills.join(", ")}
+          </p>
+          <p className="text-sm text-gray-600 dark:text-gray-300 italic mt-1">
             {education?.institution}
           </p>
         </section>
@@ -68,7 +69,7 @@ const UserCard = ({ user, isSearch }) => {
             disabled={sendConnection.isLoading}
           >
             {sendConnection.isLoading ? (
-              <LoaderPinwheel className=" animate-spin " />
+              <LoaderPinwheel className="animate-spin" />
             ) : (
               "Connect"
             )}

@@ -147,18 +147,20 @@ const Conversation = () => {
 
   return (
     <main className="flex justify-center">
-      <div className=" my-5 bg-red-50 w-full p-1 md:w-8/12 lg:w-6/12 ">
-        <div className=" bg-gray-200 flex relative items-center justify-around p-4">
+      <div className="my-5 bg-red-50 w-full p-1 md:w-8/12 lg:w-6/12 rounded-lg shadow-lg">
+        <div className="bg-gray-200 flex relative items-center justify-around p-4 rounded-t-lg shadow-md">
           <Link to="/messaging" className="absolute left-4">
-            <MoveLeft className="cursor-pointer " size={36} />{" "}
+            <MoveLeft className="cursor-pointer" size={36} />
           </Link>
-          {participants[0]._id.toString() == loggedInUserId.toString()
-            ? participants[1].fullname
-            : participants[0].fullname}
+          <h2 className="font-semibold text-lg text-gray-800">
+            {participants[0]._id.toString() === loggedInUserId.toString()
+              ? participants[1].fullname
+              : participants[0].fullname}
+          </h2>
         </div>
 
         <div className="flex-1 flex flex-col">
-          <div className="flex-1 p-4 overflow-y-auto bg-gray-100">
+          <div className="flex-1 p-4 overflow-y-auto bg-gray-100 rounded-lg shadow-inner">
             {messages.map((message) => (
               <div
                 key={message?._id}
@@ -169,18 +171,20 @@ const Conversation = () => {
                 }`}
               >
                 <div
-                  className={`max-w-xs w-8/12 md:w-5/12  px-4 py-2 rounded-lg shadow ${
+                  className={`max-w-xs w-8/12 md:w-5/12 px-4 py-2 rounded-lg shadow ${
                     message?.sender?._id === loggedInUserId
                       ? "bg-blue-500 text-white"
                       : "bg-white text-gray-800"
                   }`}
                 >
-                  <p className="font-semibold">{message?.sender?.fullname}</p>
-                  <p>{message?.content}</p>
+                  <p className="font-semibold text-sm mb-1">
+                    {message?.sender?.fullname}
+                  </p>
+                  <p className="text-sm">{message?.content}</p>
                   {message?.sender?._id === loggedInUserId && (
                     <button
                       onClick={() => handleDeleteMessage(message?._id)}
-                      className="mt-1 flex justify-self-end  p-1 rounded-md bg-slate-100  text-red-600 hover:underline"
+                      className="mt-2 flex justify-self-end p-1 rounded-md bg-slate-100 text-red-600 hover:underline"
                     >
                       <Trash size={20} />
                     </button>
@@ -190,19 +194,17 @@ const Conversation = () => {
             ))}
           </div>
 
-          <div className="p-4 bg-white border-t">
+          <div className="p-4 bg-white border-t rounded-b-lg shadow-md">
             <div className="flex items-center space-x-2">
               <Textarea
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Type a message..."
-                className="flex-1 p-2 border rounded-md resize-none focus:outline-none"
+                className="flex-1 p-2 border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
               <Button
-                onClick={() => {
-                  handleSendMessage(newMessage);
-                }}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                onClick={() => handleSendMessage(newMessage)}
+                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all"
               >
                 Send
               </Button>

@@ -86,51 +86,59 @@ const Comment = ({ comment, postId }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-1 lg:p-6  border border-gray-200 dark:border-gray-700 transition-colors duration-300 mb-4 lg:mb-6 ">
-      <div className="flex justify-between">
-        <section className="flex items-center pl-0.5 mb-4">
-          <Avatar className="lg:w-14 lg:h-14  rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
+    <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-4 lg:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300 mb-6">
+      {/* Header */}
+      <div className="flex justify-between items-start">
+        {/* User Info */}
+        <section className="flex items-center">
+          <Avatar className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
             <AvatarImage src={avatar} />
             <AvatarFallback>{fullname[0]}</AvatarFallback>
           </Avatar>
           <div className="ml-4">
-            <p className="text-xl font-semibold text-gray-800 dark:text-white">
+            <p className="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white">
               {fullname}
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm lg:text-base text-gray-500 dark:text-gray-400">
               {headline}
             </p>
           </div>
         </section>
 
+        {/* Edit/Delete Actions */}
         {isOwner && (
-          <div className="flex items-end flex-col gap-2">
+          <div className="flex items-center space-x-2">
             <button
               onClick={() => setIsEditing(!isEditing)}
-              className=" flex justify-end items-center  w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 shadow focus:ring-2 focus:ring-indigo-500"
+              aria-label="Edit comment"
             >
-              {" "}
-              <Edit className=" text-gray-800 dark:text-gray-200" />
+              <Edit className="text-gray-800 dark:text-gray-200 w-5 h-5" />
             </button>
-            <Trash
+            <button
               onClick={() => deleteCommentMutation.mutate()}
-              className=" text-gray-800 cursor-pointer dark:text-gray-200"
-            />
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 shadow focus:ring-2 focus:ring-red-500"
+              aria-label="Delete comment"
+            >
+              <Trash className="text-red-600 dark:text-red-400 w-5 h-5" />
+            </button>
           </div>
         )}
       </div>
 
-      <section className="mb-6">
+      {/* Content */}
+      <section className="mt-4">
         {isEditing ? (
-          <div>
+          <div className="flex flex-col space-y-2">
             <Textarea
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
-              className="w-full px-4 py-2 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2"
+              className="w-full px-4 py-2 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Edit your comment..."
             />
             <Button
               onClick={handleSaveEdit}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
             >
               Save
             </Button>
@@ -140,19 +148,25 @@ const Comment = ({ comment, postId }) => {
         )}
       </section>
 
-      <section className="flex items-center space-x-3 text-gray-500 dark:text-gray-400 text-sm">
-        <Button
+      {/* Footer */}
+      <section className="mt-4 flex items-center space-x-4 text-gray-500 dark:text-gray-400 text-sm">
+        {/* Like Button */}
+        <button
           onClick={() => likeCommentMutation.mutate(_id)}
-          className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className={`flex items-center justify-center w-8 h-8 rounded-full transition-all ${
+            isLiked
+              ? "bg-red-100 dark:bg-red-900 text-red-500"
+              : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
+          } hover:scale-110 hover:shadow-md`}
         >
           <Heart
-            className={`w-7 h-7 ${
-              isLiked && "fill-red-500"
-            } text-blue-600 dark:text-blue-400`}
+            className={`w-6 h-6 ${
+              isLiked ? "fill-red-500" : "fill-transparent"
+            } transition-all`}
           />
-        </Button>
-        <p className="text-gray-800 dark:text-gray-100 font-medium">
-          {likeCount} Likes
+        </button>
+        <p className="font-medium text-gray-800 dark:text-gray-100">
+          {likeCount} {likeCount === 1 ? "Like" : "Likes"}
         </p>
         <p className="text-gray-500 dark:text-gray-400">
           {formatDistanceToNow(new Date(createdAt))} ago
