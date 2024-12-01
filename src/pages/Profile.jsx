@@ -319,17 +319,19 @@ const Profile = () => {
               <p className="text-gray-600">{education?.degree}</p>
               <p className="text-gray-600">{education?.institution}</p>
               <p className="text-gray-500">
-                {startDate.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}{" "}
+                {education?.startDate &&
+                  startDate.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}{" "}
                 -{" "}
-                {endDate.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                {education?.endDate &&
+                  endDate.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
               </p>
             </div>
           )}
