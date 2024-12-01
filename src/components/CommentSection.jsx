@@ -53,7 +53,7 @@ const CommentSection = ({ postId }) => {
           {comments?.data?.map((comment) => (
             <div
               key={comment._id}
-              className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300"
+              className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg md:p-4 shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               <Comment comment={comment} postId={postId} />
             </div>

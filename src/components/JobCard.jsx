@@ -111,7 +111,7 @@ const JobCard = ({ job }) => {
   const jobId = _id;
 
   return (
-    <main className="container mx-auto my-6 px-4 py-6 lg:px-8 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 shadow-lg rounded-lg max-w-3xl border border-gray-300 dark:border-gray-700">
+    <main className="container mx-auto my-6 px-3 py-6 lg:px-8 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 shadow-lg rounded-lg max-w-3xl border border-gray-300 dark:border-gray-700">
       <div className="space-y-6">
         <section className="flex items-center relative space-x-4">
           <Avatar className="w-16 h-16 rounded-full border-2 border-indigo-500 dark:border-teal-500 shadow-lg hover:shadow-2xl transition-shadow">
@@ -122,7 +122,7 @@ const JobCard = ({ job }) => {
           </Avatar>
           <div>
             <Link to={`/company/${company?._id}`}>
-              <p className="text-2xl lg:text-3xl font-bold hover:text-indigo-600 dark:hover:text-teal-400 text-gray-800 dark:text-white transition-colors">
+              <p className="text-lg md:text-2xl lg:text-3xl font-bold hover:text-indigo-600 dark:hover:text-teal-400 text-gray-800 dark:text-white transition-colors">
                 {companyName}
               </p>
             </Link>

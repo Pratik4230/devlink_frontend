@@ -73,7 +73,7 @@ const CompanyJobs = () => {
   };
 
   return (
-    <main className="mt-5 p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-lg shadow-lg">
+    <main className="mt-5 p-2 md:p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-lg shadow-lg">
       <section className="flex justify-end mb-4">
         <Button
           onClick={() => setShowCreateJobForm(!showCreateJobForm)}
@@ -85,7 +85,7 @@ const CompanyJobs = () => {
       {showCreateJobForm && (
         <form
           onSubmit={handleSubmit}
-          className="space-y-4 bg-white p-6 rounded-lg shadow-md"
+          className="space-y-4 bg-white p-2 md:p-6 rounded-lg shadow-md"
         >
           <Input
             type="text"
@@ -93,7 +93,7 @@ const CompanyJobs = () => {
             value={formData.title}
             onChange={handleChange}
             placeholder="Job Title"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
+            className="w-full p-1 md:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
             required
           />
           <Textarea
@@ -101,7 +101,7 @@ const CompanyJobs = () => {
             value={formData.description}
             onChange={handleChange}
             placeholder="Job Description"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
+            className="w-full p-1 md:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
             required
           />
           <Textarea
@@ -109,7 +109,7 @@ const CompanyJobs = () => {
             value={formData.requirements}
             onChange={handleChange}
             placeholder="Job Requirements"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
+            className="w-full p-1 md:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
             required
           />
           <Input
@@ -118,7 +118,7 @@ const CompanyJobs = () => {
             value={formData.skills}
             onChange={handleChange}
             placeholder="Skills (comma-separated)"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
+            className="w-full p-1 md:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
           />
           <Input
             type="text"
@@ -126,7 +126,7 @@ const CompanyJobs = () => {
             value={formData.minSalary}
             onChange={handleChange}
             placeholder="Minimum Salary"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
+            className="w-full p-1 md:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
           />
           <Input
             type="text"
@@ -134,7 +134,7 @@ const CompanyJobs = () => {
             value={formData.maxSalary}
             onChange={handleChange}
             placeholder="Maximum Salary"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
+            className="w-full p-1 md:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
           />
           <Input
             type="text"
@@ -142,13 +142,13 @@ const CompanyJobs = () => {
             value={formData.location}
             onChange={handleChange}
             placeholder="Location"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
+            className="w-full p-1 md:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
           />
           <select
             name="type"
             value={formData.type}
             onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
+            className="w-full p-1 md:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200"
           >
             <option value="full-time">Full-Time</option>
             <option value="part-time">Part-Time</option>
@@ -158,7 +158,7 @@ const CompanyJobs = () => {
 
           <Button
             type="submit"
-            className={`w-full bg-teal-500 text-white font-semibold px-4 py-2 rounded hover:bg-teal-600 transition duration-300 ${
+            className={`w-full bg-teal-500 text-white font-semibold px-1 md:px-4 py-2 rounded hover:bg-teal-600 transition duration-300 ${
               createJobMutation.isLoading && "opacity-50 cursor-not-allowed"
             }`}
             disabled={createJobMutation.isLoading}

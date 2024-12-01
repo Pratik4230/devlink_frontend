@@ -194,7 +194,7 @@ const Conversation = () => {
             ))}
           </div>
 
-          <div className="p-4 bg-white border-t rounded-b-lg shadow-md">
+          <div className="p-2 md:p-4 bg-white border-t rounded-b-lg shadow-md">
             <div className="flex items-center space-x-2">
               <Textarea
                 value={newMessage}

@@ -35,7 +35,7 @@ const JobApplications = () => {
   // console.log("applications", applications);
 
   return (
-    <div className="mt-5 flex flex-col items-center gap-5 p-6 bg-gray-50 rounded-lg shadow-lg max-w-4xl mx-auto transition-transform transform hover:scale-105">
+    <div className="mt-5 flex flex-col items-center gap-5 p-2 md:p-6 bg-gray-50 rounded-lg shadow-lg max-w-4xl mx-auto transition-transform transform hover:scale-105">
       <p className="text-lg font-bold text-gray-900 border-b-2 border-gray-300 pb-2 w-full text-center">
         Job Applications
       </p>

@@ -23,7 +23,7 @@ const Messaging = () => {
   //   console.log("connections", connections);
 
   return (
-    <main className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 min-h-screen my-7">
+    <main className="px-2 md:p-6 bg-gradient-to-r from-blue-50 to-purple-50 min-h-screen my-7">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">
           Conversations
@@ -33,12 +33,12 @@ const Messaging = () => {
           connections?.data?.map((connection) => (
             <section
               key={connection?.connectionId}
-              className="flex items-center justify-between p-4 mb-4 bg-white shadow-lg rounded-lg hover:shadow-2xl transition-shadow border border-gray-200"
+              className="flex items-center justify-between px-2 py-4 md:px-4 mb-4 bg-white shadow-lg rounded-lg hover:shadow-2xl transition-shadow border border-gray-200"
             >
               <div className="flex items-center space-x-4">
-                <Avatar className="w-14 h-14 rounded-full border-4 border-gradient-to-r from-indigo-400 to-blue-500 shadow-lg">
+                <Avatar className=" md:w-14 md:h-14 rounded-full border-4 border-gradient-to-r from-indigo-400 to-blue-500 shadow-lg">
                   <AvatarImage src={connection?.avatar} />
-                  <AvatarFallback className="text-2xl font-semibold text-gray-700">
+                  <AvatarFallback className="md:text-2xl font-semibold text-gray-700">
                     {connection?.fullname[0]}
                   </AvatarFallback>
                 </Avatar>
@@ -58,7 +58,7 @@ const Messaging = () => {
 
               <Link
                 to={`/conversation/${connection?.nextUserId}`}
-                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
+                className="px-2 md:px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
               >
                 Message
               </Link>

@@ -30,7 +30,7 @@ const CompanyJobList = ({ companyId }) => {
   // console.log("data", data);
 
   return (
-    <main className="mt-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+    <main className="mt-10 px-1 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       <div>
         {!data?.data || data?.data?.length === 0 ? (
           <p className="text-center text-gray-500 dark:text-gray-400 mt-10 text-lg font-medium">

@@ -88,7 +88,7 @@ const Comment = ({ comment, postId }) => {
   return (
     <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-4 lg:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300 mb-6">
       {/* Header */}
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between  items-start  ">
         {/* User Info */}
         <section className="flex items-center">
           <Avatar className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-gray-300 dark:border-indigo-500 shadow-md">
@@ -96,7 +96,7 @@ const Comment = ({ comment, postId }) => {
             <AvatarFallback>{fullname[0]}</AvatarFallback>
           </Avatar>
           <div className="ml-4">
-            <p className="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white">
+            <p className="md:text-lg lg:text-xl font-semibold text-gray-800 dark:text-white">
               {fullname}
             </p>
             <p className="text-sm lg:text-base text-gray-500 dark:text-gray-400">
@@ -107,7 +107,7 @@ const Comment = ({ comment, postId }) => {
 
         {/* Edit/Delete Actions */}
         {isOwner && (
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col md:flex-row items-center space-x-2">
             <button
               onClick={() => setIsEditing(!isEditing)}
               className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300 shadow focus:ring-2 focus:ring-indigo-500"
@@ -133,12 +133,12 @@ const Comment = ({ comment, postId }) => {
             <Textarea
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
-              className="w-full px-4 py-2 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-2 md:px-4 py-2 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Edit your comment..."
             />
             <Button
               onClick={handleSaveEdit}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+              className="bg-blue-500 text-white px-2 md:px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
             >
               Save
             </Button>

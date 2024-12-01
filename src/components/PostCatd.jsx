@@ -116,9 +116,9 @@ const PostCard = ({ post }) => {
   };
 
   return (
-    <main className="bg-gradient-to-br from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 shadow-xl rounded-lg p-6 lg:p-8 mb-8 border border-gray-300 dark:border-gray-700 transition-all duration-300 ease-in-out hover:shadow-2xl">
+    <main className="bg-gradient-to-br from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 shadow-xl rounded-lg p-4 lg:p-8 mb-8 border border-gray-300 dark:border-gray-700 transition-all duration-300 ease-in-out hover:shadow-2xl">
       <div className="flex justify-between items-center">
-        <section className="flex items-center gap-4">
+        <section className="flex items-center gap-2 md:gap-4">
           <Avatar className="lg:w-16 lg:h-16 rounded-full border-4 border-indigo-400 dark:border-purple-600 shadow-lg">
             <AvatarImage src={author?.avatar} />
             <AvatarFallback className="text-indigo-500 dark:text-purple-400 bg-indigo-100 dark:bg-gray-800">
@@ -130,7 +130,7 @@ const PostCard = ({ post }) => {
             className="hover:underline focus:outline-none focus:ring-2 focus:ring-purple-400 rounded-lg"
           >
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <p className="md:text-2xl font-bold text-gray-900 dark:text-white">
                 {author?.fullname}
               </p>
               <p className="text-sm text-indigo-600 dark:text-purple-400">
@@ -140,9 +140,9 @@ const PostCard = ({ post }) => {
           </Link>
         </section>
         {isOwner && (
-          <div className="flex gap-3 items-center">
+          <div className="flex flex-col md:flex-row gap-2 md:gap-3 items-center">
             <button
-              onClick={() => setIsEditing(true)}
+              onClick={() => setIsEditing(!isEditing)}
               className="w-10 h-10 rounded-full bg-indigo-500 text-white hover:bg-indigo-600 dark:bg-purple-600 dark:hover:bg-purple-700 shadow-lg transition"
             >
               <Edit className="w-5 h-5 mx-auto" />
@@ -183,7 +183,7 @@ const PostCard = ({ post }) => {
       </section>
 
       <section className="flex justify-evenly items-center text-gray-600 dark:text-gray-400 text-sm border-t border-gray-300 dark:border-gray-600 pt-4">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1 md:gap-3">
           <Button
             onClick={() => PostLikeMutation.mutate(_id)}
             className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white hover:from-pink-600 hover:to-red-600 shadow-md"
@@ -192,17 +192,17 @@ const PostCard = ({ post }) => {
               className={`w-5 h-5 ${isLiked && "fill-current"} text-white`}
             />
           </Button>
-          <p className="font-medium text-gray-900 dark:text-gray-100">
+          <p className=" font-normal md:font-medium text-gray-900 dark:text-gray-100">
             {likeCount} Likes
           </p>
         </div>
         {user && (
           <Button
             onClick={() => setShowComments(!showComments)}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-lg hover:from-teal-600 hover:to-cyan-600 transition"
+            className="flex items-center gap-2 px-3 md:px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-lg hover:from-teal-600 hover:to-cyan-600 transition"
           >
             <MessageSquareQuote className="w-5 h-5" />
-            <span>Comments</span>
+            <span className="hidden md:inline">Comments</span>
           </Button>
         )}
         <p className="text-sm italic">
@@ -211,7 +211,7 @@ const PostCard = ({ post }) => {
       </section>
 
       {showComments && (
-        <section className="mt-6 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-inner">
+        <section className="mt-6 bg-gray-100 dark:bg-gray-800 p-2 md:p-4 rounded-lg shadow-inner">
           <Textarea
             rows={3}
             value={commentText}
