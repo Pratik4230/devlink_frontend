@@ -153,6 +153,9 @@ const Profile = () => {
   const startDate = new Date(education?.startDate);
   const endDate = new Date(education?.endDate);
 
+  const experienceStartDate = new Date(experience?.startDate);
+  const experienceEndDate = new Date(experience?.endDate);
+
   return (
     <div className="my-10 max-w-3xl mx-auto p-1 md:p-6 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700">
       <section className="flex items-center justify-center space-x-4 mb-6 relative">
@@ -266,7 +269,19 @@ const Profile = () => {
             <p className="text-gray-600">{experience?.jobTitle}</p>
             <p className="text-gray-600">{experience?.company}</p>
             <p className="text-gray-500">
-              {experience?.startDate} - {experience?.endDate}
+              {experience?.startDate &&
+                experienceStartDate.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}{" "}
+              -{" "}
+              {experience?.endDate &&
+                experienceEndDate.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
             </p>
           </div>
         )}
