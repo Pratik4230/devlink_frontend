@@ -10,6 +10,7 @@ import { MoveLeft, Trash } from "lucide-react";
 import { io as clientIo } from "socket.io-client";
 
 const Conversation = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [newMessage, setNewMessage] = useState("");
   const queryClient = useQueryClient();
 
@@ -19,7 +20,7 @@ const Conversation = () => {
 
   const loggedInUserId = useSelector((state) => state?.user?.user?._id);
 
-  const socket = useMemo(() => clientIo("http://localhost:3000"), []);
+  const socket = useMemo(() => clientIo(backendUrl), []);
 
   useEffect(() => {
     socket.emit("join", { userId: loggedInUserId });
